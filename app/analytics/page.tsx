@@ -5,7 +5,7 @@ import { DashboardHeader } from "@/components/dashboard-header"
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
 import { Badge } from "@/components/ui/badge"
 import { Progress } from "@/components/ui/progress"
-import { ChartContainer, ChartTooltip, ChartTooltipContent } from "@/components/ui/chart"
+import { ChartContainer } from "@/components/ui/chart"
 import {
   Bar,
   BarChart,
@@ -19,8 +19,10 @@ import {
   Cell,
   Legend,
   ResponsiveContainer,
+  Tooltip,
 } from "recharts"
 import { TrendingUpIcon, TrendingDownIcon, CheckCircleIcon, AlertCircleIcon, MessageSquareIcon } from "lucide-react"
+import { useState, useEffect } from "react"
 
 const completionData = [
   { month: "Июл", completed: 65, pending: 35 },
@@ -29,13 +31,6 @@ const completionData = [
   { month: "Окт", completed: 78, pending: 22 },
   { month: "Ноя", completed: 82, pending: 18 },
   { month: "Дек", completed: 85, pending: 15 },
-]
-
-const platformData = [
-  { platform: "Telegram", tasks: 85, color: "hsl(var(--chart-1))" },
-  { platform: "Slack", tasks: 42, color: "hsl(var(--chart-2))" },
-  { platform: "WhatsApp", tasks: 28, color: "hsl(var(--chart-3))" },
-  { platform: "Discord", tasks: 15, color: "hsl(var(--chart-4))" },
 ]
 
 const responseTimeData = [
@@ -70,6 +65,41 @@ const chartConfig = {
 }
 
 export default function AnalyticsPage() {
+  const [chartColors, setChartColors] = useState({
+    chart1: "#6366f1",
+    chart2: "#06b6d4",
+    chart3: "#10b981",
+    chart4: "#8b5cf6",
+  })
+
+  useEffect(() => {
+    const computeColors = () => {
+      const style = getComputedStyle(document.documentElement)
+      setChartColors({
+        chart1: style.getPropertyValue("--color-chart-1").trim() || "#6366f1",
+        chart2: style.getPropertyValue("--color-chart-2").trim() || "#06b6d4",
+        chart3: style.getPropertyValue("--color-chart-3").trim() || "#10b981",
+        chart4: style.getPropertyValue("--color-chart-4").trim() || "#8b5cf6",
+      })
+    }
+
+    computeColors()
+
+    const observer = new MutationObserver(computeColors)
+    observer.observe(document.documentElement, { attributes: true, attributeFilter: ["class"] })
+
+    return () => observer.disconnect()
+  }, [])
+
+  const platformData = [
+    { platform: "Telegram", tasks: 85, color: chartColors.chart1 },
+    { platform: "Slack", tasks: 42, color: chartColors.chart2 },
+    { platform: "WhatsApp", tasks: 28, color: chartColors.chart3 },
+    { platform: "Discord", tasks: 15, color: chartColors.chart4 },
+  ]
+
+  const COLORS = [chartColors.chart1, chartColors.chart2, chartColors.chart3, chartColors.chart4]
+
   const totalTasks = 170
   const completedTasks = 145
   const completionRate = Math.round((completedTasks / totalTasks) * 100)
@@ -158,13 +188,24 @@ export default function AnalyticsPage() {
               <CardContent>
                 <ChartContainer config={chartConfig} className="h-[300px] w-full">
                   <ResponsiveContainer width="100%" height="100%">
-                    <BarChart data={completionData}>
-                      <CartesianGrid strokeDasharray="3 3" />
-                      <XAxis dataKey="month" />
-                      <YAxis />
-                      <ChartTooltip content={<ChartTooltipContent />} />
-                      <Bar dataKey="completed" fill="hsl(var(--chart-1))" radius={[4, 4, 0, 0]} />
-                      <Bar dataKey="pending" fill="hsl(var(--chart-2))" radius={[4, 4, 0, 0]} />
+                    <BarChart data={completionData} margin={{ top: 5, right: 5, left: 5, bottom: 5 }}>
+                      <CartesianGrid strokeDasharray="3 3" className="stroke-muted" />
+                      <XAxis
+                        dataKey="month"
+                        tick={{ fill: "hsl(var(--foreground))" }}
+                        tickLine={{ stroke: "hsl(var(--border))" }}
+                      />
+                      <YAxis tick={{ fill: "hsl(var(--foreground))" }} tickLine={{ stroke: "hsl(var(--border))" }} />
+                      <Tooltip
+                        contentStyle={{
+                          backgroundColor: "hsl(var(--popover))",
+                          border: "1px solid hsl(var(--border))",
+                          borderRadius: "8px",
+                        }}
+                      />
+                      <Legend wrapperStyle={{ paddingTop: "10px" }} iconType="square" />
+                      <Bar dataKey="completed" fill={chartColors.chart1} radius={[4, 4, 0, 0]} name="Завершено" />
+                      <Bar dataKey="pending" fill={chartColors.chart2} radius={[4, 4, 0, 0]} name="В ожидании" />
                     </BarChart>
                   </ResponsiveContainer>
                 </ChartContainer>
@@ -187,14 +228,23 @@ export default function AnalyticsPage() {
                         cx="50%"
                         cy="50%"
                         outerRadius={80}
-                        label={(entry) => `${entry.platform}: ${entry.tasks}`}
+                        label={({ platform, tasks, percent }) =>
+                          `${platform}: ${tasks} (${(percent * 100).toFixed(0)}%)`
+                        }
+                        labelLine={{ stroke: "hsl(var(--foreground))", strokeWidth: 1 }}
                       >
                         {platformData.map((entry, index) => (
-                          <Cell key={`cell-${index}`} fill={entry.color} />
+                          <Cell key={`cell-${index}`} fill={COLORS[index % COLORS.length]} />
                         ))}
                       </Pie>
-                      <ChartTooltip content={<ChartTooltipContent />} />
-                      <Legend />
+                      <Tooltip
+                        contentStyle={{
+                          backgroundColor: "hsl(var(--popover))",
+                          border: "1px solid hsl(var(--border))",
+                          borderRadius: "8px",
+                        }}
+                      />
+                      <Legend iconType="circle" />
                     </PieChart>
                   </ResponsiveContainer>
                 </ChartContainer>
@@ -212,17 +262,29 @@ export default function AnalyticsPage() {
               <CardContent>
                 <ChartContainer config={chartConfig} className="h-[300px] w-full">
                   <ResponsiveContainer width="100%" height="100%">
-                    <LineChart data={responseTimeData}>
-                      <CartesianGrid strokeDasharray="3 3" />
-                      <XAxis dataKey="day" />
-                      <YAxis />
-                      <ChartTooltip content={<ChartTooltipContent />} />
+                    <LineChart data={responseTimeData} margin={{ top: 5, right: 5, left: 5, bottom: 5 }}>
+                      <CartesianGrid strokeDasharray="3 3" className="stroke-muted" />
+                      <XAxis
+                        dataKey="day"
+                        tick={{ fill: "hsl(var(--foreground))" }}
+                        tickLine={{ stroke: "hsl(var(--border))" }}
+                      />
+                      <YAxis tick={{ fill: "hsl(var(--foreground))" }} tickLine={{ stroke: "hsl(var(--border))" }} />
+                      <Tooltip
+                        contentStyle={{
+                          backgroundColor: "hsl(var(--popover))",
+                          border: "1px solid hsl(var(--border))",
+                          borderRadius: "8px",
+                        }}
+                      />
                       <Line
                         type="monotone"
                         dataKey="avgTime"
-                        stroke="hsl(var(--chart-1))"
-                        strokeWidth={2}
-                        dot={{ fill: "hsl(var(--chart-1))", r: 4 }}
+                        stroke={chartColors.chart1}
+                        strokeWidth={3}
+                        dot={{ fill: chartColors.chart1, r: 5 }}
+                        activeDot={{ r: 7 }}
+                        name="Время (мин)"
                       />
                     </LineChart>
                   </ResponsiveContainer>
@@ -248,8 +310,8 @@ export default function AnalyticsPage() {
                                 priority.name === "Высокий"
                                   ? "hsl(var(--destructive))"
                                   : priority.name === "Средний"
-                                    ? "hsl(var(--chart-2))"
-                                    : "hsl(var(--chart-3))",
+                                    ? chartColors.chart2
+                                    : chartColors.chart3,
                             }}
                           />
                           <span className="font-medium">{priority.name} приоритет</span>

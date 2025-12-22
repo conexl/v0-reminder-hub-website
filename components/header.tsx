@@ -27,25 +27,28 @@ export function Header() {
             href="/features"
             className="text-sm font-medium text-foreground/80 hover:text-foreground transition-colors"
           >
-            Features
+            Возможности
+          </Link>
+          <Link href="/demo" className="text-sm font-medium text-foreground/80 hover:text-foreground transition-colors">
+            Демо
           </Link>
           <Link
             href="/dashboard"
             className="text-sm font-medium text-foreground/80 hover:text-foreground transition-colors"
           >
-            Dashboard
+            Дашборд
           </Link>
           <Link
             href="/analytics"
             className="text-sm font-medium text-foreground/80 hover:text-foreground transition-colors"
           >
-            Analytics
+            Аналитика
           </Link>
           <Link
             href="/integrations"
             className="text-sm font-medium text-foreground/80 hover:text-foreground transition-colors"
           >
-            Integrations
+            Интеграции
           </Link>
         </nav>
 
@@ -56,10 +59,10 @@ export function Header() {
             </Button>
           )}
           <Link href="/login">
-            <Button variant="ghost">Sign In</Button>
+            <Button variant="ghost">Войти</Button>
           </Link>
           <Link href="/register">
-            <Button>Get Started</Button>
+            <Button>Начать</Button>
           </Link>
         </div>
       </div>

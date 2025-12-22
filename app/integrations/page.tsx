@@ -91,6 +91,8 @@ const availablePlatforms = [
 export default function IntegrationsPage() {
   const [integrations, setIntegrations] = useState(mockIntegrations)
   const [isAddDialogOpen, setIsAddDialogOpen] = useState(false)
+  const [isConfigureDialogOpen, setIsConfigureDialogOpen] = useState(false)
+  const [selectedIntegration, setSelectedIntegration] = useState<any>(null)
   const [selectedPlatform, setSelectedPlatform] = useState<string | null>(null)
   const [newIntegration, setNewIntegration] = useState({
     botToken: "",
@@ -120,6 +122,23 @@ export default function IntegrationsPage() {
     setNewIntegration({ botToken: "", analyzePrivateChats: true, analyzeGroups: true })
   }
 
+  const handleConfigureIntegration = (integration: any) => {
+    setSelectedIntegration(integration)
+    setIsConfigureDialogOpen(true)
+  }
+
+  const handleSaveConfiguration = () => {
+    if (!selectedIntegration) return
+
+    setIntegrations(
+      integrations.map((int) =>
+        int.id === selectedIntegration.id ? { ...int, settings: selectedIntegration.settings } : int,
+      ),
+    )
+    setIsConfigureDialogOpen(false)
+    setSelectedIntegration(null)
+  }
+
   const handleDeleteIntegration = (id: string) => {
     setIntegrations(integrations.filter((i) => i.id !== id))
   }
@@ -137,9 +156,9 @@ export default function IntegrationsPage() {
 
         <main className="container mx-auto px-4 py-8">
           <div className="mb-8">
-            <h1 className="text-3xl font-bold mb-2">Messenger Integrations</h1>
+            <h1 className="text-3xl font-bold mb-2">Интеграции мессенджеров</h1>
             <p className="text-muted-foreground leading-relaxed">
-              Connect your messaging platforms to automatically extract tasks from conversations
+              Подключите платформы для автоматического извлечения задач из разговоров
             </p>
           </div>
 
@@ -147,35 +166,35 @@ export default function IntegrationsPage() {
           <div className="grid gap-4 md:grid-cols-3 mb-8">
             <Card>
               <CardHeader className="pb-3">
-                <CardDescription>Connected Platforms</CardDescription>
+                <CardDescription>Подключенные платформы</CardDescription>
                 <CardTitle className="text-3xl">{integrations.length}</CardTitle>
               </CardHeader>
               <CardContent>
-                <div className="text-xs text-muted-foreground">Active messenger connections</div>
+                <div className="text-xs text-muted-foreground">Активные подключения мессенджеров</div>
               </CardContent>
             </Card>
 
             <Card>
               <CardHeader className="pb-3">
-                <CardDescription>Monitored Chats</CardDescription>
+                <CardDescription>Отслеживаемые чаты</CardDescription>
                 <CardTitle className="text-3xl">
                   {integrations.reduce((sum, int) => sum + int.monitoredChatsCount, 0)}
                 </CardTitle>
               </CardHeader>
               <CardContent>
-                <div className="text-xs text-muted-foreground">Across all platforms</div>
+                <div className="text-xs text-muted-foreground">На всех платформах</div>
               </CardContent>
             </Card>
 
             <Card>
               <CardHeader className="pb-3">
-                <CardDescription>Tasks Extracted</CardDescription>
+                <CardDescription>Извлечено задач</CardDescription>
                 <CardTitle className="text-3xl text-primary">
                   {integrations.reduce((sum, int) => sum + int.tasksExtracted, 0)}
                 </CardTitle>
               </CardHeader>
               <CardContent>
-                <div className="text-xs text-muted-foreground">Total AI-extracted tasks</div>
+                <div className="text-xs text-muted-foreground">Всего задач, извлеченных ИИ</div>
               </CardContent>
             </Card>
           </div>
@@ -185,8 +204,8 @@ export default function IntegrationsPage() {
             <CardHeader>
               <div className="flex items-center justify-between">
                 <div>
-                  <CardTitle>Connected Platforms</CardTitle>
-                  <CardDescription>Manage your active messenger integrations</CardDescription>
+                  <CardTitle>Подключенные платформы</CardTitle>
+                  <CardDescription>Управление активными интеграциями мессенджеров</CardDescription>
                 </div>
               </div>
             </CardHeader>
@@ -194,9 +213,9 @@ export default function IntegrationsPage() {
               {integrations.length === 0 ? (
                 <div className="text-center py-12">
                   <AlertCircleIcon className="h-12 w-12 mx-auto text-muted-foreground mb-4" />
-                  <h3 className="text-lg font-semibold mb-2">No integrations yet</h3>
+                  <h3 className="text-lg font-semibold mb-2">Пока нет интеграций</h3>
                   <p className="text-sm text-muted-foreground mb-4">
-                    Connect your first messenger platform to start extracting tasks
+                    Подключите первую платформу мессенджера, чтобы начать извлекать задачи
                   </p>
                 </div>
               ) : (
@@ -219,7 +238,7 @@ export default function IntegrationsPage() {
                                   ) : (
                                     <XCircleIcon className="h-3 w-3 mr-1" />
                                   )}
-                                  {integration.status}
+                                  {integration.status === "connected" ? "подключено" : "отключено"}
                                 </Badge>
                               </div>
                               <p className="text-sm text-muted-foreground">{integration.username}</p>
@@ -227,24 +246,24 @@ export default function IntegrationsPage() {
 
                             <div className="grid grid-cols-2 md:grid-cols-3 gap-4 text-sm">
                               <div>
-                                <div className="text-muted-foreground">Monitored Chats</div>
+                                <div className="text-muted-foreground">Отслеживаемые чаты</div>
                                 <div className="font-semibold">{integration.monitoredChatsCount}</div>
                               </div>
                               <div>
-                                <div className="text-muted-foreground">Tasks Extracted</div>
+                                <div className="text-muted-foreground">Извлечено задач</div>
                                 <div className="font-semibold text-primary">{integration.tasksExtracted}</div>
                               </div>
                               <div className="col-span-2 md:col-span-1">
-                                <div className="text-muted-foreground">Settings</div>
+                                <div className="text-muted-foreground">Настройки</div>
                                 <div className="flex gap-2 mt-1">
                                   {integration.settings.analyzePrivateChats && (
                                     <Badge variant="secondary" className="text-xs">
-                                      Private
+                                      Личные
                                     </Badge>
                                   )}
                                   {integration.settings.analyzeGroups && (
                                     <Badge variant="secondary" className="text-xs">
-                                      Groups
+                                      Группы
                                     </Badge>
                                   )}
                                 </div>
@@ -254,15 +273,11 @@ export default function IntegrationsPage() {
                         </div>
 
                         <div className="flex items-center gap-2">
-                          <Button variant="outline" size="sm">
-                            <SettingsIcon className="h-4 w-4" />
-                            Configure
+                          <Button variant="outline" size="sm" onClick={() => handleConfigureIntegration(integration)}>
+                            <SettingsIcon className="h-4 w-4 mr-2" />
+                            Настроить
                           </Button>
-                          <Button
-                            variant="ghost"
-                            size="icon-sm"
-                            onClick={() => handleDeleteIntegration(integration.id)}
-                          >
+                          <Button variant="ghost" size="sm" onClick={() => handleDeleteIntegration(integration.id)}>
                             <TrashIcon className="h-4 w-4 text-destructive" />
                           </Button>
                         </div>
@@ -277,8 +292,8 @@ export default function IntegrationsPage() {
           {/* Available Platforms */}
           <Card>
             <CardHeader>
-              <CardTitle>Add New Platform</CardTitle>
-              <CardDescription>Choose a messaging platform to connect</CardDescription>
+              <CardTitle>Добавить новую платформу</CardTitle>
+              <CardDescription>Выберите платформу мессенджера для подключения</CardDescription>
             </CardHeader>
             <CardContent className="grid gap-4 md:grid-cols-2">
               {availablePlatforms.map((platform) => {
@@ -308,7 +323,7 @@ export default function IntegrationsPage() {
                             <h3 className="font-semibold">{platform.name}</h3>
                             {isConnected && (
                               <Badge variant="secondary" className="text-xs">
-                                Connected
+                                Подключено
                               </Badge>
                             )}
                           </div>
@@ -328,30 +343,30 @@ export default function IntegrationsPage() {
             <DialogContent>
               <DialogHeader>
                 <DialogTitle>
-                  Connect {selectedPlatform && availablePlatforms.find((p) => p.id === selectedPlatform)?.name}
+                  Подключить {selectedPlatform && availablePlatforms.find((p) => p.id === selectedPlatform)?.name}
                 </DialogTitle>
-                <DialogDescription>Configure your messenger integration settings</DialogDescription>
+                <DialogDescription>Настройте параметры интеграции мессенджера</DialogDescription>
               </DialogHeader>
 
               <div className="space-y-4 py-4">
                 <div className="space-y-2">
-                  <Label htmlFor="botToken">Bot Token / Credentials</Label>
+                  <Label htmlFor="botToken">Токен бота / Учетные данные</Label>
                   <Input
                     id="botToken"
-                    placeholder={`Enter your ${selectedPlatform} bot token`}
+                    placeholder={`Введите токен бота ${selectedPlatform}`}
                     value={newIntegration.botToken}
                     onChange={(e) => setNewIntegration({ ...newIntegration, botToken: e.target.value })}
                   />
                   <p className="text-xs text-muted-foreground">
-                    Get your bot token from the {selectedPlatform} developer portal
+                    Получите токен бота на портале разработчика {selectedPlatform}
                   </p>
                 </div>
 
                 <div className="space-y-4 pt-2">
                   <div className="flex items-center justify-between">
                     <div className="space-y-0.5">
-                      <Label>Analyze Private Chats</Label>
-                      <p className="text-xs text-muted-foreground">Extract tasks from private conversations</p>
+                      <Label>Анализировать личные чаты</Label>
+                      <p className="text-xs text-muted-foreground">Извлекать задачи из личных разговоров</p>
                     </div>
                     <Switch
                       checked={newIntegration.analyzePrivateChats}
@@ -363,8 +378,8 @@ export default function IntegrationsPage() {
 
                   <div className="flex items-center justify-between">
                     <div className="space-y-0.5">
-                      <Label>Analyze Group Chats</Label>
-                      <p className="text-xs text-muted-foreground">Monitor group conversations for tasks</p>
+                      <Label>Анализировать групповые чаты</Label>
+                      <p className="text-xs text-muted-foreground">Отслеживать групповые разговоры для задач</p>
                     </div>
                     <Switch
                       checked={newIntegration.analyzeGroups}
@@ -376,11 +391,66 @@ export default function IntegrationsPage() {
 
               <DialogFooter>
                 <Button variant="outline" onClick={() => setIsAddDialogOpen(false)}>
-                  Cancel
+                  Отмена
                 </Button>
                 <Button onClick={handleAddIntegration} disabled={!newIntegration.botToken}>
-                  Connect Platform
+                  Подключить платформу
                 </Button>
+              </DialogFooter>
+            </DialogContent>
+          </Dialog>
+
+          {/* Configure Integration Dialog */}
+          <Dialog open={isConfigureDialogOpen} onOpenChange={setIsConfigureDialogOpen}>
+            <DialogContent>
+              <DialogHeader>
+                <DialogTitle>Настроить {selectedIntegration?.platform}</DialogTitle>
+                <DialogDescription>Измените параметры интеграции</DialogDescription>
+              </DialogHeader>
+
+              {selectedIntegration && (
+                <div className="space-y-4 py-4">
+                  <div className="space-y-4">
+                    <div className="flex items-center justify-between">
+                      <div className="space-y-0.5">
+                        <Label>Анализировать личные чаты</Label>
+                        <p className="text-xs text-muted-foreground">Извлекать задачи из личных разговоров</p>
+                      </div>
+                      <Switch
+                        checked={selectedIntegration.settings.analyzePrivateChats}
+                        onCheckedChange={(checked) =>
+                          setSelectedIntegration({
+                            ...selectedIntegration,
+                            settings: { ...selectedIntegration.settings, analyzePrivateChats: checked },
+                          })
+                        }
+                      />
+                    </div>
+
+                    <div className="flex items-center justify-between">
+                      <div className="space-y-0.5">
+                        <Label>Анализировать групповые чаты</Label>
+                        <p className="text-xs text-muted-foreground">Отслеживать групповые разговоры для задач</p>
+                      </div>
+                      <Switch
+                        checked={selectedIntegration.settings.analyzeGroups}
+                        onCheckedChange={(checked) =>
+                          setSelectedIntegration({
+                            ...selectedIntegration,
+                            settings: { ...selectedIntegration.settings, analyzeGroups: checked },
+                          })
+                        }
+                      />
+                    </div>
+                  </div>
+                </div>
+              )}
+
+              <DialogFooter>
+                <Button variant="outline" onClick={() => setIsConfigureDialogOpen(false)}>
+                  Отмена
+                </Button>
+                <Button onClick={handleSaveConfiguration}>Сохранить изменения</Button>
               </DialogFooter>
             </DialogContent>
           </Dialog>

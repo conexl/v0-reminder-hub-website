@@ -61,15 +61,15 @@ export default function RegisterPage() {
             <span>Reminder Hub</span>
           </Link>
           <p className="text-muted-foreground text-sm leading-relaxed">
-            Create your account and start managing tasks smarter.
+            Создайте аккаунт и начните управлять задачами умнее.
           </p>
         </div>
 
         <Card className="border-2">
           <CardHeader>
-            <CardTitle className="text-2xl">Create Account</CardTitle>
+            <CardTitle className="text-2xl">Создать аккаунт</CardTitle>
             <CardDescription className="leading-relaxed">
-              Join thousands of professionals using AI-powered task management
+              Присоединяйтесь к тысячам профессионалов, использующих управление задачами на основе ИИ
             </CardDescription>
           </CardHeader>
 
@@ -82,13 +82,13 @@ export default function RegisterPage() {
               )}
 
               <div className="space-y-2">
-                <Label htmlFor="name">Full Name</Label>
+                <Label htmlFor="name">Полное имя</Label>
                 <div className="relative">
                   <UserIcon className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
                   <Input
                     id="name"
                     type="text"
-                    placeholder="John Doe"
+                    placeholder="Иван Иванов"
                     value={name}
                     onChange={(e) => setName(e.target.value)}
                     className="pl-10"
@@ -114,7 +114,7 @@ export default function RegisterPage() {
               </div>
 
               <div className="space-y-2">
-                <Label htmlFor="password">Password</Label>
+                <Label htmlFor="password">Пароль</Label>
                 <div className="relative">
                   <LockIcon className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
                   <Input
@@ -140,13 +140,15 @@ export default function RegisterPage() {
                         }`}
                       />
                     </div>
-                    <span className="text-muted-foreground capitalize">{passwordStrength}</span>
+                    <span className="text-muted-foreground capitalize">
+                      {passwordStrength === "strong" ? "сильный" : passwordStrength === "medium" ? "средний" : "слабый"}
+                    </span>
                   </div>
                 )}
               </div>
 
               <div className="space-y-2">
-                <Label htmlFor="confirmPassword">Confirm Password</Label>
+                <Label htmlFor="confirmPassword">Подтвердите пароль</Label>
                 <div className="relative">
                   <LockIcon className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
                   <Input
@@ -164,25 +166,25 @@ export default function RegisterPage() {
               <div className="pt-2 space-y-2 text-xs text-muted-foreground">
                 <div className="flex items-center gap-2">
                   <CheckIcon className="h-3 w-3 text-primary" />
-                  <span>14-day free trial, no credit card required</span>
+                  <span>14 дней бесплатно, кредитная карта не требуется</span>
                 </div>
                 <div className="flex items-center gap-2">
                   <CheckIcon className="h-3 w-3 text-primary" />
-                  <span>Access to all premium features</span>
+                  <span>Доступ ко всем премиум-функциям</span>
                 </div>
               </div>
             </CardContent>
 
             <CardFooter className="flex-col gap-4">
               <Button type="submit" className="w-full" size="lg" disabled={isLoading}>
-                {isLoading ? "Creating account..." : "Create Account"}
+                {isLoading ? "Создание аккаунта..." : "Создать аккаунт"}
                 {!isLoading && <ArrowRightIcon className="h-4 w-4" />}
               </Button>
 
               <p className="text-sm text-muted-foreground text-center">
-                Already have an account?{" "}
+                Уже есть аккаунт?{" "}
                 <Link href="/login" className="text-primary hover:underline font-medium">
-                  Sign in
+                  Войти
                 </Link>
               </p>
             </CardFooter>
@@ -190,13 +192,13 @@ export default function RegisterPage() {
         </Card>
 
         <p className="text-center text-xs text-muted-foreground mt-6">
-          By creating an account, you agree to our{" "}
+          Создавая аккаунт, вы соглашаетесь с нашими{" "}
           <Link href="/terms" className="underline hover:text-foreground">
-            Terms of Service
+            Условиями использования
           </Link>{" "}
-          and{" "}
+          и{" "}
           <Link href="/privacy" className="underline hover:text-foreground">
-            Privacy Policy
+            Политикой конфиденциальности
           </Link>
         </p>
       </div>

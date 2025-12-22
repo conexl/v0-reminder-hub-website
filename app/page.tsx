@@ -48,7 +48,7 @@ export default function Home() {
                   <ArrowRightIcon className="ml-2 h-4 w-4" />
                 </Button>
               </Link>
-              <Link href="/dashboard">
+              <Link href="/demo">
                 <Button size="lg" variant="outline" className="text-base bg-transparent">
                   Смотреть демо
                 </Button>
@@ -212,7 +212,7 @@ export default function Home() {
                     <ArrowRightIcon className="ml-2 h-4 w-4" />
                   </Button>
                 </Link>
-                <Link href="/dashboard">
+                <Link href="/features">
                   <Button size="lg" variant="outline" className="text-base bg-transparent">
                     Изучить функции
                   </Button>

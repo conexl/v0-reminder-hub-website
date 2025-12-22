@@ -53,21 +53,21 @@ export function DashboardHeader() {
             className="flex items-center gap-2 text-sm font-medium text-foreground/80 hover:text-foreground transition-colors"
           >
             <HomeIcon className="h-4 w-4" />
-            Dashboard
+            Дашборд
           </Link>
           <Link
             href="/integrations"
             className="flex items-center gap-2 text-sm font-medium text-foreground/80 hover:text-foreground transition-colors"
           >
             <MessageSquareIcon className="h-4 w-4" />
-            Integrations
+            Интеграции
           </Link>
           <Link
             href="/analytics"
             className="flex items-center gap-2 text-sm font-medium text-foreground/80 hover:text-foreground transition-colors"
           >
             <BarChart3Icon className="h-4 w-4" />
-            Analytics
+            Аналитика
           </Link>
         </nav>
 
@@ -97,13 +97,13 @@ export function DashboardHeader() {
               <DropdownMenuItem asChild>
                 <Link href="/settings" className="cursor-pointer">
                   <SettingsIcon className="h-4 w-4" />
-                  Settings
+                  Настройки
                 </Link>
               </DropdownMenuItem>
               <DropdownMenuSeparator />
               <DropdownMenuItem onClick={handleLogout} variant="destructive">
                 <LogOutIcon className="h-4 w-4" />
-                Log Out
+                Выйти
               </DropdownMenuItem>
             </DropdownMenuContent>
           </DropdownMenu>

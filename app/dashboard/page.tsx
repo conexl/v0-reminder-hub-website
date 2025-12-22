@@ -202,41 +202,41 @@ export default function DashboardPage() {
           <div className="grid gap-4 md:grid-cols-4 mb-8">
             <Card>
               <CardHeader className="pb-3">
-                <CardDescription>Total Reminders</CardDescription>
+                <CardDescription>Всего напоминаний</CardDescription>
                 <CardTitle className="text-3xl">{reminders.length}</CardTitle>
               </CardHeader>
               <CardContent>
-                <div className="text-xs text-muted-foreground">Active tasks and completed</div>
+                <div className="text-xs text-muted-foreground">Активные и завершенные задачи</div>
               </CardContent>
             </Card>
 
             <Card>
               <CardHeader className="pb-3">
-                <CardDescription>Pending</CardDescription>
+                <CardDescription>Ожидают</CardDescription>
                 <CardTitle className="text-3xl text-primary">{pendingReminders.length}</CardTitle>
               </CardHeader>
               <CardContent>
-                <div className="text-xs text-muted-foreground">Awaiting completion</div>
+                <div className="text-xs text-muted-foreground">Ожидают выполнения</div>
               </CardContent>
             </Card>
 
             <Card>
               <CardHeader className="pb-3">
-                <CardDescription>Overdue</CardDescription>
+                <CardDescription>Просрочено</CardDescription>
                 <CardTitle className="text-3xl text-destructive">{overdueReminders.length}</CardTitle>
               </CardHeader>
               <CardContent>
-                <div className="text-xs text-muted-foreground">Need immediate attention</div>
+                <div className="text-xs text-muted-foreground">Требуют немедленного внимания</div>
               </CardContent>
             </Card>
 
             <Card>
               <CardHeader className="pb-3">
-                <CardDescription>Completed</CardDescription>
+                <CardDescription>Завершено</CardDescription>
                 <CardTitle className="text-3xl text-green-600">{completedReminders.length}</CardTitle>
               </CardHeader>
               <CardContent>
-                <div className="text-xs text-muted-foreground">Successfully finished</div>
+                <div className="text-xs text-muted-foreground">Успешно выполнено</div>
               </CardContent>
             </Card>
           </div>
@@ -246,42 +246,42 @@ export default function DashboardPage() {
             <CardHeader>
               <div className="flex items-center justify-between">
                 <div>
-                  <CardTitle>Reminders</CardTitle>
-                  <CardDescription>Manage your AI-extracted and manual reminders</CardDescription>
+                  <CardTitle>Напоминания</CardTitle>
+                  <CardDescription>Управляйте напоминаниями, извлеченными ИИ, и ручными</CardDescription>
                 </div>
                 <Dialog open={isCreateDialogOpen} onOpenChange={setIsCreateDialogOpen}>
                   <DialogTrigger asChild>
                     <Button>
                       <PlusIcon className="h-4 w-4" />
-                      New Reminder
+                      Новое напоминание
                     </Button>
                   </DialogTrigger>
                   <DialogContent>
                     <DialogHeader>
-                      <DialogTitle>Create New Reminder</DialogTitle>
-                      <DialogDescription>Add a manual reminder to your task list</DialogDescription>
+                      <DialogTitle>Создать новое напоминание</DialogTitle>
+                      <DialogDescription>Добавьте ручное напоминание в список задач</DialogDescription>
                     </DialogHeader>
                     <div className="space-y-4 py-4">
                       <div className="space-y-2">
-                        <Label htmlFor="title">Title</Label>
+                        <Label htmlFor="title">Название</Label>
                         <Input
                           id="title"
-                          placeholder="Task title"
+                          placeholder="Название задачи"
                           value={newReminder.title}
                           onChange={(e) => setNewReminder({ ...newReminder, title: e.target.value })}
                         />
                       </div>
                       <div className="space-y-2">
-                        <Label htmlFor="description">Description</Label>
+                        <Label htmlFor="description">Описание</Label>
                         <Input
                           id="description"
-                          placeholder="Task description"
+                          placeholder="Описание задачи"
                           value={newReminder.description}
                           onChange={(e) => setNewReminder({ ...newReminder, description: e.target.value })}
                         />
                       </div>
                       <div className="space-y-2">
-                        <Label htmlFor="dueDate">Due Date</Label>
+                        <Label htmlFor="dueDate">Срок выполнения</Label>
                         <Input
                           id="dueDate"
                           type="datetime-local"
@@ -290,7 +290,7 @@ export default function DashboardPage() {
                         />
                       </div>
                       <div className="space-y-2">
-                        <Label htmlFor="priority">Priority</Label>
+                        <Label htmlFor="priority">Приоритет</Label>
                         <Select
                           value={newReminder.priority}
                           onValueChange={(value) => setNewReminder({ ...newReminder, priority: value })}
@@ -299,18 +299,18 @@ export default function DashboardPage() {
                             <SelectValue />
                           </SelectTrigger>
                           <SelectContent>
-                            <SelectItem value="low">Low</SelectItem>
-                            <SelectItem value="medium">Medium</SelectItem>
-                            <SelectItem value="high">High</SelectItem>
+                            <SelectItem value="low">Низкий</SelectItem>
+                            <SelectItem value="medium">Средний</SelectItem>
+                            <SelectItem value="high">Высокий</SelectItem>
                           </SelectContent>
                         </Select>
                       </div>
                     </div>
                     <DialogFooter>
                       <Button variant="outline" onClick={() => setIsCreateDialogOpen(false)}>
-                        Cancel
+                        Отмена
                       </Button>
-                      <Button onClick={handleCreateReminder}>Create Reminder</Button>
+                      <Button onClick={handleCreateReminder}>Создать напоминание</Button>
                     </DialogFooter>
                   </DialogContent>
                 </Dialog>
@@ -320,10 +320,10 @@ export default function DashboardPage() {
             <CardContent>
               <Tabs defaultValue="all" className="w-full">
                 <TabsList>
-                  <TabsTrigger value="all">All ({reminders.length})</TabsTrigger>
-                  <TabsTrigger value="pending">Pending ({pendingReminders.length})</TabsTrigger>
-                  <TabsTrigger value="overdue">Overdue ({overdueReminders.length})</TabsTrigger>
-                  <TabsTrigger value="completed">Completed ({completedReminders.length})</TabsTrigger>
+                  <TabsTrigger value="all">Все ({reminders.length})</TabsTrigger>
+                  <TabsTrigger value="pending">Ожидают ({pendingReminders.length})</TabsTrigger>
+                  <TabsTrigger value="overdue">Просрочено ({overdueReminders.length})</TabsTrigger>
+                  <TabsTrigger value="completed">Завершено ({completedReminders.length})</TabsTrigger>
                 </TabsList>
 
                 <TabsContent value="all" className="space-y-4 mt-4">
@@ -334,8 +334,20 @@ export default function DashboardPage() {
                           <div className="flex-1 space-y-2">
                             <div className="flex items-center gap-2 flex-wrap">
                               <h3 className="font-semibold text-lg">{reminder.title}</h3>
-                              <Badge variant={getStatusColor(reminder.status)}>{reminder.status}</Badge>
-                              <Badge variant={getPriorityColor(reminder.priority)}>{reminder.priority}</Badge>
+                              <Badge variant={getStatusColor(reminder.status)}>
+                                {reminder.status === "pending"
+                                  ? "ожидает"
+                                  : reminder.status === "completed"
+                                    ? "завершено"
+                                    : "просрочено"}
+                              </Badge>
+                              <Badge variant={getPriorityColor(reminder.priority)}>
+                                {reminder.priority === "high"
+                                  ? "высокий"
+                                  : reminder.priority === "medium"
+                                    ? "средний"
+                                    : "низкий"}
+                              </Badge>
                             </div>
 
                             <p className="text-sm text-muted-foreground">{reminder.description}</p>
@@ -365,7 +377,7 @@ export default function DashboardPage() {
                                       className="flex items-center gap-1 text-primary hover:underline"
                                     >
                                       <ExternalLinkIcon className="h-3 w-3" />
-                                      View Message
+                                      Посмотреть сообщение
                                     </a>
                                   )}
                                 </>
@@ -377,7 +389,7 @@ export default function DashboardPage() {
                             {reminder.status !== "completed" && (
                               <Button size="sm" onClick={() => handleCompleteReminder(reminder.id)}>
                                 <CheckCircleIcon className="h-4 w-4" />
-                                Complete
+                                Выполнить
                               </Button>
                             )}
                             <DropdownMenu>
@@ -389,14 +401,14 @@ export default function DashboardPage() {
                               <DropdownMenuContent align="end">
                                 <DropdownMenuItem>
                                   <EditIcon className="h-4 w-4" />
-                                  Edit
+                                  Редактировать
                                 </DropdownMenuItem>
                                 <DropdownMenuItem
                                   variant="destructive"
                                   onClick={() => handleDeleteReminder(reminder.id)}
                                 >
                                   <TrashIcon className="h-4 w-4" />
-                                  Delete
+                                  Удалить
                                 </DropdownMenuItem>
                               </DropdownMenuContent>
                             </DropdownMenu>
@@ -411,8 +423,8 @@ export default function DashboardPage() {
                   {pendingReminders.length === 0 ? (
                     <div className="text-center py-12">
                       <BellIcon className="h-12 w-12 mx-auto text-muted-foreground mb-4" />
-                      <h3 className="text-lg font-semibold mb-2">No pending reminders</h3>
-                      <p className="text-sm text-muted-foreground">All caught up! Great job.</p>
+                      <h3 className="text-lg font-semibold mb-2">Нет ожидающих напоминаний</h3>
+                      <p className="text-sm text-muted-foreground">Все выполнено! Отличная работа.</p>
                     </div>
                   ) : (
                     pendingReminders.map((reminder) => (
@@ -422,7 +434,13 @@ export default function DashboardPage() {
                             <div className="flex-1 space-y-2">
                               <div className="flex items-center gap-2">
                                 <h3 className="font-semibold text-lg">{reminder.title}</h3>
-                                <Badge variant={getPriorityColor(reminder.priority)}>{reminder.priority}</Badge>
+                                <Badge variant={getPriorityColor(reminder.priority)}>
+                                  {reminder.priority === "high"
+                                    ? "высокий"
+                                    : reminder.priority === "medium"
+                                      ? "средний"
+                                      : "низкий"}
+                                </Badge>
                               </div>
                               <p className="text-sm text-muted-foreground">{reminder.description}</p>
                               <div className="flex items-center gap-2 text-xs text-muted-foreground">
@@ -432,7 +450,7 @@ export default function DashboardPage() {
                             </div>
                             <Button size="sm" onClick={() => handleCompleteReminder(reminder.id)}>
                               <CheckCircleIcon className="h-4 w-4" />
-                              Complete
+                              Выполнить
                             </Button>
                           </div>
                         </CardContent>
@@ -445,8 +463,8 @@ export default function DashboardPage() {
                   {overdueReminders.length === 0 ? (
                     <div className="text-center py-12">
                       <CheckCircleIcon className="h-12 w-12 mx-auto text-green-600 mb-4" />
-                      <h3 className="text-lg font-semibold mb-2">No overdue reminders</h3>
-                      <p className="text-sm text-muted-foreground">You're on track!</p>
+                      <h3 className="text-lg font-semibold mb-2">Нет просроченных напоминаний</h3>
+                      <p className="text-sm text-muted-foreground">Вы на правильном пути!</p>
                     </div>
                   ) : (
                     overdueReminders.map((reminder) => (
@@ -457,13 +475,13 @@ export default function DashboardPage() {
                               <div className="flex items-center gap-2">
                                 <AlertCircleIcon className="h-5 w-5 text-destructive" />
                                 <h3 className="font-semibold text-lg">{reminder.title}</h3>
-                                <Badge variant="destructive">overdue</Badge>
+                                <Badge variant="destructive">просрочено</Badge>
                               </div>
                               <p className="text-sm text-muted-foreground">{reminder.description}</p>
                             </div>
                             <Button size="sm" onClick={() => handleCompleteReminder(reminder.id)}>
                               <CheckCircleIcon className="h-4 w-4" />
-                              Complete
+                              Выполнить
                             </Button>
                           </div>
                         </CardContent>
@@ -476,8 +494,8 @@ export default function DashboardPage() {
                   {completedReminders.length === 0 ? (
                     <div className="text-center py-12">
                       <ClockIcon className="h-12 w-12 mx-auto text-muted-foreground mb-4" />
-                      <h3 className="text-lg font-semibold mb-2">No completed reminders yet</h3>
-                      <p className="text-sm text-muted-foreground">Start completing tasks to see them here.</p>
+                      <h3 className="text-lg font-semibold mb-2">Нет завершенных напоминаний</h3>
+                      <p className="text-sm text-muted-foreground">Начните выполнять задачи!</p>
                     </div>
                   ) : (
                     completedReminders.map((reminder) => (
@@ -491,6 +509,22 @@ export default function DashboardPage() {
                               </div>
                               <p className="text-sm text-muted-foreground">{reminder.description}</p>
                             </div>
+                            <DropdownMenu>
+                              <DropdownMenuTrigger asChild>
+                                <Button variant="ghost" size="icon-sm">
+                                  <MoreVerticalIcon className="h-4 w-4" />
+                                </Button>
+                              </DropdownMenuTrigger>
+                              <DropdownMenuContent align="end">
+                                <DropdownMenuItem
+                                  variant="destructive"
+                                  onClick={() => handleDeleteReminder(reminder.id)}
+                                >
+                                  <TrashIcon className="h-4 w-4" />
+                                  Удалить
+                                </DropdownMenuItem>
+                              </DropdownMenuContent>
+                            </DropdownMenu>
                           </div>
                         </CardContent>
                       </Card>

@@ -44,15 +44,13 @@ export default function LoginPage() {
             <BrainCircuitIcon className="h-7 w-7 text-primary" />
             <span>Reminder Hub</span>
           </Link>
-          <p className="text-muted-foreground text-sm leading-relaxed">Welcome back! Sign in to your account.</p>
+          <p className="text-muted-foreground text-sm leading-relaxed">С возвращением! Войдите в свой аккаунт.</p>
         </div>
 
         <Card className="border-2">
           <CardHeader>
-            <CardTitle className="text-2xl">Sign In</CardTitle>
-            <CardDescription className="leading-relaxed">
-              Enter your credentials to access your dashboard
-            </CardDescription>
+            <CardTitle className="text-2xl">Войти</CardTitle>
+            <CardDescription className="leading-relaxed">Введите свои данные для доступа к дашборду</CardDescription>
           </CardHeader>
 
           <form onSubmit={handleSubmit}>
@@ -81,9 +79,9 @@ export default function LoginPage() {
 
               <div className="space-y-2">
                 <div className="flex items-center justify-between">
-                  <Label htmlFor="password">Password</Label>
+                  <Label htmlFor="password">Пароль</Label>
                   <Link href="/forgot-password" className="text-sm text-primary hover:underline">
-                    Forgot?
+                    Забыли?
                   </Link>
                 </div>
                 <div className="relative">
@@ -103,14 +101,14 @@ export default function LoginPage() {
 
             <CardFooter className="flex-col gap-4">
               <Button type="submit" className="w-full" size="lg" disabled={isLoading}>
-                {isLoading ? "Signing in..." : "Sign In"}
+                {isLoading ? "Вход..." : "Войти"}
                 {!isLoading && <ArrowRightIcon className="h-4 w-4" />}
               </Button>
 
               <p className="text-sm text-muted-foreground text-center">
-                Don't have an account?{" "}
+                Нет аккаунта?{" "}
                 <Link href="/register" className="text-primary hover:underline font-medium">
-                  Create one
+                  Создать
                 </Link>
               </p>
             </CardFooter>
@@ -118,13 +116,13 @@ export default function LoginPage() {
         </Card>
 
         <p className="text-center text-xs text-muted-foreground mt-6">
-          By signing in, you agree to our{" "}
+          Входя в систему, вы соглашаетесь с нашими{" "}
           <Link href="/terms" className="underline hover:text-foreground">
-            Terms of Service
+            Условиями использования
           </Link>{" "}
-          and{" "}
+          и{" "}
           <Link href="/privacy" className="underline hover:text-foreground">
-            Privacy Policy
+            Политикой конфиденциальности
           </Link>
         </p>
       </div>

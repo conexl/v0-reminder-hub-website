@@ -59,8 +59,8 @@ export default function ContactPage() {
                 <CardDescription className="leading-relaxed">Отправьте нам письмо для общих вопросов</CardDescription>
               </CardHeader>
               <CardContent>
-                <a href="mailto:support@reminderhub.com" className="text-primary hover:underline">
-                  support@reminderhub.com
+                <a href="mailto:support@tecta.com" className="text-primary hover:underline">
+                  support@tecta.com
                 </a>
               </CardContent>
             </Card>
@@ -74,8 +74,8 @@ export default function ContactPage() {
                 <CardDescription className="leading-relaxed">Нужна техническая помощь?</CardDescription>
               </CardHeader>
               <CardContent>
-                <a href="mailto:help@reminderhub.com" className="text-primary hover:underline">
-                  help@reminderhub.com
+                <a href="mailto:help@tecta.com" className="text-primary hover:underline">
+                  help@tecta.com
                 </a>
               </CardContent>
             </Card>
@@ -89,8 +89,8 @@ export default function ContactPage() {
                 <CardDescription className="leading-relaxed">Для партнерства и сотрудничества</CardDescription>
               </CardHeader>
               <CardContent>
-                <a href="mailto:business@reminderhub.com" className="text-primary hover:underline">
-                  business@reminderhub.com
+                <a href="mailto:business@tecta.com" className="text-primary hover:underline">
+                  business@tecta.com
                 </a>
               </CardContent>
             </Card>
@@ -176,7 +176,7 @@ export default function ContactPage() {
             </CardHeader>
             <CardContent className="space-y-4">
               <div>
-                <h3 className="font-semibold mb-2">Как начать работу с Reminder Hub?</h3>
+                <h3 className="font-semibold mb-2">Как начать работу с Tecta?</h3>
                 <p className="text-sm text-muted-foreground leading-relaxed">
                   Просто зарегистрируйтесь бесплатно, подключите свои мессенджеры и начните получать интеллектуальные
                   напоминания автоматически.
@@ -206,9 +206,9 @@ export default function ContactPage() {
           <div className="flex flex-col md:flex-row items-center justify-between gap-4">
             <div className="flex items-center gap-2 font-bold text-xl">
               <BrainCircuitIcon className="h-6 w-6 text-primary" />
-              <span>Reminder Hub</span>
+              <span>Tecta</span>
             </div>
-            <p className="text-sm text-muted-foreground">© 2025 Reminder Hub. Все права защищены.</p>
+            <p className="text-sm text-muted-foreground">© 2025 Tecta. Все права защищены.</p>
             <div className="flex gap-6">
               <Link href="/privacy" className="text-sm text-muted-foreground hover:text-foreground transition-colors">
                 Конфиденциальность

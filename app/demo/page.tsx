@@ -109,7 +109,7 @@ export default function DemoPage() {
               Интерактивная демонстрация
             </Badge>
             <h1 className="text-4xl md:text-5xl font-bold mb-4 text-balance">
-              Увидьте Reminder Hub <span className="text-primary">в действии</span>
+              Увидьте Tecta <span className="text-primary">в действии</span>
             </h1>
             <p className="text-xl text-muted-foreground leading-relaxed max-w-3xl mx-auto">
               Наблюдайте, как наш ИИ автоматически извлекает задачи из ваших сообщений в реальном времени
@@ -269,7 +269,7 @@ export default function DemoPage() {
                     <div className="flex-1">
                       <h3 className="font-semibold text-lg mb-2">Получение сообщения</h3>
                       <p className="text-muted-foreground leading-relaxed">
-                        Reminder Hub подключается к вашим мессенджерам через безопасные API и получает новые сообщения в
+                        Tecta подключается к вашим мессенджерам через безопасные API и получает новые сообщения в
                         реальном времени.
                       </p>
                     </div>
@@ -328,7 +328,7 @@ export default function DemoPage() {
           <div className="text-center">
             <h2 className="text-3xl font-bold mb-4">Готовы попробовать?</h2>
             <p className="text-muted-foreground mb-6 leading-relaxed">
-              Начните использовать Reminder Hub бесплатно и никогда больше не упускайте важные задачи
+              Начните использовать Tecta бесплатно и никогда больше не упускайте важные задачи
             </p>
             <div className="flex gap-4 justify-center">
               <Button size="lg" asChild>

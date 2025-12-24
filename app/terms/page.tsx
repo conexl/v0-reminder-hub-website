@@ -21,7 +21,7 @@ export default function TermsPage() {
             </CardHeader>
             <CardContent className="space-y-4 text-muted-foreground leading-relaxed">
               <p>
-                Получая доступ или используя сервис Reminder Hub, вы соглашаетесь соблюдать эти Условия использования.
+                Получая доступ или используя сервис Tecta, вы соглашаетесь соблюдать эти Условия использования.
                 Если вы не согласны с какой-либо частью условий, вы не можете использовать наш сервис.
               </p>
             </CardContent>
@@ -32,7 +32,7 @@ export default function TermsPage() {
               <CardTitle>2. Описание сервиса</CardTitle>
             </CardHeader>
             <CardContent className="space-y-4 text-muted-foreground leading-relaxed">
-              <p>Reminder Hub предоставляет платформу управления задачами на основе ИИ, которая:</p>
+              <p>Tecta предоставляет платформу управления задачами на основе ИИ, которая:</p>
               <ul className="list-disc list-inside space-y-2 ml-4">
                 <li>Анализирует разговоры в мессенджерах для извлечения задач</li>
                 <li>Создает автоматические напоминания с контекстом</li>
@@ -66,7 +66,7 @@ export default function TermsPage() {
               <CardTitle>4. Приемлемое использование</CardTitle>
             </CardHeader>
             <CardContent className="space-y-4 text-muted-foreground leading-relaxed">
-              <p>Вы соглашаетесь не использовать Reminder Hub для:</p>
+              <p>Вы соглашаетесь не использовать Tecta для:</p>
               <ul className="list-disc list-inside space-y-2 ml-4">
                 <li>Любых незаконных целей или нарушения любых законов</li>
                 <li>Нарушения прав интеллектуальной собственности других лиц</li>
@@ -83,7 +83,7 @@ export default function TermsPage() {
               <CardTitle>5. Интеграции мессенджеров</CardTitle>
             </CardHeader>
             <CardContent className="space-y-4 text-muted-foreground leading-relaxed">
-              <p>При подключении мессенджеров к Reminder Hub:</p>
+              <p>При подключении мессенджеров к Tecta:</p>
               <ul className="list-disc list-inside space-y-2 ml-4">
                 <li>Вы даете нам разрешение на доступ к вашим сообщениям для анализа ИИ</li>
                 <li>Вы соглашаетесь с условиями обслуживания платформы мессенджера</li>
@@ -115,7 +115,7 @@ export default function TermsPage() {
             </CardHeader>
             <CardContent className="space-y-4 text-muted-foreground leading-relaxed">
               <p>
-                Сервис и его оригинальное содержимое, функции и функциональность принадлежат Reminder Hub и защищены
+                Сервис и его оригинальное содержимое, функции и функциональность принадлежат Tecta и защищены
                 международными законами об авторском праве, товарных знаках, патентах и других законах об
                 интеллектуальной собственности.
               </p>
@@ -140,7 +140,7 @@ export default function TermsPage() {
             </CardHeader>
             <CardContent className="space-y-4 text-muted-foreground leading-relaxed">
               <p>
-                Reminder Hub предоставляется "как есть" и "как доступно" без каких-либо гарантий. Мы не несем
+                Tecta предоставляется "как есть" и "как доступно" без каких-либо гарантий. Мы не несем
                 ответственности за любые косвенные, случайные или последующие убытки, возникающие в результате
                 использования нашего сервиса.
               </p>
@@ -167,8 +167,7 @@ export default function TermsPage() {
             <CardContent className="space-y-4 text-muted-foreground leading-relaxed">
               <p>Если у вас есть вопросы об этих Условиях, пожалуйста, свяжитесь с нами:</p>
               <ul className="list-none space-y-2 ml-4">
-                <li>Email: legal@reminderhub.com</li>
-                <li>Адрес: 123 Terms Street, San Francisco, CA 94105</li>
+                <li>Email: legal@tecta.com</li>
               </ul>
             </CardContent>
           </Card>
@@ -180,9 +179,9 @@ export default function TermsPage() {
           <div className="flex flex-col md:flex-row items-center justify-between gap-4">
             <div className="flex items-center gap-2 font-bold text-xl">
               <BrainCircuitIcon className="h-6 w-6 text-primary" />
-              <span>Reminder Hub</span>
+              <span>Tecta</span>
             </div>
-            <p className="text-sm text-muted-foreground">© 2025 Reminder Hub. Все права защищены.</p>
+            <p className="text-sm text-muted-foreground">© 2025 Tecta. Все права защищены.</p>
             <div className="flex gap-6">
               <Link href="/privacy" className="text-sm text-muted-foreground hover:text-foreground transition-colors">
                 Конфиденциальность

@@ -9,22 +9,14 @@ const _geist = Geist({ subsets: ["latin"] })
 const _geistMono = Geist_Mono({ subsets: ["latin"] })
 
 export const metadata: Metadata = {
-  title: "Reminder Hub - AI-Powered Task Management from Messengers",
+  title: "Tecta - AI-Powered Task Management from Messengers",
   description:
     "Automatically extract tasks and deadlines from your messenger conversations with AI-powered intelligence.",
   generator: "v0.app",
   icons: {
     icon: [
       {
-        url: "/icon-light-32x32.png",
-        media: "(prefers-color-scheme: light)",
-      },
-      {
-        url: "/icon-dark-32x32.png",
-        media: "(prefers-color-scheme: dark)",
-      },
-      {
-        url: "/icon.svg",
+        url: "/icon.svg?v=2",
         type: "image/svg+xml",
       },
     ],

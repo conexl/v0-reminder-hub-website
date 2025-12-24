@@ -15,6 +15,56 @@ import {
 } from "lucide-react"
 import Link from "next/link"
 
+const plans = [
+  {
+    name: "Бесплатный",
+    price: "₽0",
+    period: "/месяц",
+    description: "Идеально для личного использования",
+    features: [
+      "1 интеграция мессенджера",
+      "До 50 задач/месяц",
+      "Базовая аналитика",
+      "Мобильное приложение",
+      "Поддержка электронной почты",
+    ],
+    cta: "Начать бесплатно",
+    highlighted: false,
+  },
+  {
+    name: "Профессиональный",
+    price: "₽990",
+    period: "/месяц",
+    description: "Для профессионалов и фрилансеров",
+    features: [
+      "Неограниченные интеграции",
+      "Неограниченные задачи",
+      "Расширенная аналитика",
+      "Приоритетная поддержка",
+      "Пользовательские правила автоматизации",
+      "Интеграция API",
+    ],
+    cta: "Начать пробный период",
+    highlighted: true,
+  },
+  {
+    name: "Команда",
+    price: "₽2990",
+    period: "/месяц",
+    description: "Для команд и организаций",
+    features: [
+      "Все из Профессионального",
+      "Управление командой",
+      "Рабочее пространство для совместной работы",
+      "Расширенная безопасность",
+      "Выделенный менеджер по работе с клиентами",
+      "SLA поддержка 24/7",
+    ],
+    cta: "Связаться с отделом продаж",
+    highlighted: false,
+  },
+]
+
 export default function Home() {
   return (
     <div className="min-h-screen">
@@ -37,7 +87,7 @@ export default function Home() {
             </h1>
 
             <p className="text-balance text-lg md:text-xl text-muted-foreground mb-8 max-w-2xl mx-auto leading-relaxed">
-              Reminder Hub использует ИИ для автоматического анализа ваших разговоров в мессенджерах, извлечения
+              Tecta использует ИИ для автоматического анализа ваших разговоров в мессенджерах, извлечения
               обязательств и дедлайнов, превращая их в интеллектуальные напоминания.
             </p>
 
@@ -196,6 +246,68 @@ export default function Home() {
         </div>
       </section>
 
+{/* Pricing Section */}
+      <section className="pt-20 pb-8 px-4">
+        <div className="container mx-auto max-w-7xl">
+          <div className="text-center mb-12">
+            <h2 className="text-3xl md:text-4xl font-bold mb-4">Простые, прозрачные цены</h2>
+            <p className="text-lg text-muted-foreground leading-relaxed">
+              Выберите план, который подходит для ваших потребностей
+            </p>
+          </div>
+
+          <div className="grid gap-8 md:grid-cols-3 items-start">
+            {plans.map((plan, index) => (
+              <Card
+                key={index}
+                className={`
+                  relative flex flex-col h-full transition-all duration-300 ease-in-out border-2
+                  ${
+                    plan.highlighted
+                      ? "border-primary shadow-xl scale-105 z-10 hover:shadow-2xl hover:scale-[1.07]"
+                      : "hover:border-primary/50 hover:shadow-xl hover:-translate-y-2 hover:bg-muted/20"
+                  }
+                `}
+              >
+                {plan.highlighted && (
+                  <div className="absolute -top-4 left-1/2 -translate-x-1/2 z-20">
+                    <Badge className="text-xs px-3 py-1 shadow-sm">Популярный</Badge>
+                  </div>
+                )}
+                <CardHeader className="text-center pb-8">
+                  <CardTitle className="text-2xl mb-2">{plan.name}</CardTitle>
+                  <div className="mb-2 flex items-baseline justify-center gap-1">
+                    <span className="text-4xl font-bold">{plan.price}</span>
+                    <span className="text-muted-foreground">{plan.period}</span>
+                  </div>
+                  <CardDescription className="text-balance">{plan.description}</CardDescription>
+                </CardHeader>
+                <CardContent className="space-y-6 flex-1 flex flex-col">
+                  <ul className="space-y-3 mb-6 flex-1">
+                    {plan.features.map((feature, idx) => (
+                      <li key={idx} className="flex items-start gap-2 text-sm">
+                        <CheckCircleIcon className="h-5 w-5 text-primary shrink-0 mt-0.5" />
+                        <span className="text-muted-foreground">{feature}</span>
+                      </li>
+                    ))}
+                  </ul>
+                  <Link href="/register" className="w-full mt-auto">
+                    <Button 
+                      className={`w-full transition-all duration-300 ${plan.highlighted ? 'shadow-md hover:shadow-lg' : ''}`} 
+                      variant={plan.highlighted ? "default" : "outline"}
+                      size="lg"
+                    >
+                      {plan.cta}
+                      <ArrowRightIcon className="h-4 w-4 ml-2" />
+                    </Button>
+                  </Link>
+                </CardContent>
+              </Card>
+            ))}
+          </div>
+        </div>
+      </section>
+
       {/* CTA Section */}
       <section className="py-24 md:py-32">
         <div className="container mx-auto px-4">
@@ -203,7 +315,7 @@ export default function Home() {
             <CardContent className="pt-12 pb-12 text-center">
               <h2 className="text-balance text-3xl md:text-4xl font-bold mb-4">Готовы никогда не пропускать задачи?</h2>
               <p className="text-balance text-lg text-muted-foreground mb-8 max-w-2xl mx-auto leading-relaxed">
-                Присоединяйтесь к тысячам профессионалов, которые доверяют Reminder Hub в организации своих задач.
+                Присоединяйтесь к тысячам профессионалов, которые доверяют Tecta в организации своих задач.
               </p>
               <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
                 <Link href="/register">
@@ -244,9 +356,9 @@ export default function Home() {
           <div className="flex flex-col md:flex-row items-center justify-between gap-4">
             <div className="flex items-center gap-2 font-bold text-xl">
               <BrainCircuitIcon className="h-6 w-6 text-primary" />
-              <span>Reminder Hub</span>
+              <span>Tecta</span>
             </div>
-            <p className="text-sm text-muted-foreground">© 2025 Reminder Hub. Все права защищены.</p>
+            <p className="text-sm text-muted-foreground">© 2025 Tecta. Все права защищены.</p>
             <div className="flex gap-6">
               <Link href="/privacy" className="text-sm text-muted-foreground hover:text-foreground transition-colors">
                 Конфиденциальность

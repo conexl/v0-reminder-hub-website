@@ -192,7 +192,7 @@ export default function FeaturesPage() {
             управления задачами
           </h1>
           <p className="text-xl text-muted-foreground leading-relaxed max-w-3xl mx-auto">
-            Откройте для себя, как Reminder Hub использует искусственный интеллект для преобразования ваших разговоров в
+            Откройте для себя, как Tecta использует искусственный интеллект для преобразования ваших разговоров в
             мессенджерах в организованные, действенные задачи
           </p>
         </div>
@@ -236,7 +236,7 @@ export default function FeaturesPage() {
           <div className="text-center mb-12">
             <h2 className="text-3xl md:text-4xl font-bold mb-4">Идеально подходит для</h2>
             <p className="text-lg text-muted-foreground leading-relaxed">
-              Как Reminder Hub помогает различным профессионалам оставаться организованными
+              Как Tecta помогает различным профессионалам оставаться организованными
             </p>
           </div>
 
@@ -259,7 +259,7 @@ export default function FeaturesPage() {
         </div>
       </section>
 
-      {/* Pricing Section */}
+{/* Pricing Section */}
       <section className="py-20 px-4">
         <div className="container mx-auto max-w-7xl">
           <div className="text-center mb-12">
@@ -269,36 +269,47 @@ export default function FeaturesPage() {
             </p>
           </div>
 
-          <div className="grid gap-8 md:grid-cols-3">
+          <div className="grid gap-8 md:grid-cols-3 items-start">
             {plans.map((plan, index) => (
               <Card
                 key={index}
-                className={`${plan.highlighted ? "border-primary border-2 shadow-lg scale-105" : "border-2"} relative`}
+                className={`
+                  relative flex flex-col h-full transition-all duration-300 ease-in-out border-2
+                  ${
+                    plan.highlighted
+                      ? "border-primary shadow-xl scale-105 z-10 hover:shadow-2xl hover:scale-[1.07]"
+                      : "hover:border-primary/50 hover:shadow-xl hover:-translate-y-2 hover:bg-muted/20"
+                  }
+                `}
               >
                 {plan.highlighted && (
-                  <div className="absolute -top-4 left-1/2 -translate-x-1/2">
-                    <Badge className="text-xs">Популярный</Badge>
+                  <div className="absolute -top-4 left-1/2 -translate-x-1/2 z-20">
+                    <Badge className="text-xs px-3 py-1 shadow-sm">Популярный</Badge>
                   </div>
                 )}
                 <CardHeader className="text-center pb-8">
                   <CardTitle className="text-2xl mb-2">{plan.name}</CardTitle>
-                  <div className="mb-2">
+                  <div className="mb-2 flex items-baseline justify-center gap-1">
                     <span className="text-4xl font-bold">{plan.price}</span>
                     <span className="text-muted-foreground">{plan.period}</span>
                   </div>
-                  <CardDescription>{plan.description}</CardDescription>
+                  <CardDescription className="text-balance">{plan.description}</CardDescription>
                 </CardHeader>
-                <CardContent className="space-y-6">
-                  <ul className="space-y-3">
+                <CardContent className="space-y-6 flex-1 flex flex-col">
+                  <ul className="space-y-3 mb-6 flex-1">
                     {plan.features.map((feature, idx) => (
                       <li key={idx} className="flex items-start gap-2 text-sm">
                         <CheckCircleIcon className="h-5 w-5 text-primary shrink-0 mt-0.5" />
-                        <span>{feature}</span>
+                        <span className="text-muted-foreground">{feature}</span>
                       </li>
                     ))}
                   </ul>
-                  <Link href="/register">
-                    <Button className="w-full" variant={plan.highlighted ? "default" : "outline"}>
+                  <Link href="/register" className="w-full mt-auto">
+                    <Button 
+                      className={`w-full transition-all duration-300 ${plan.highlighted ? 'shadow-md hover:shadow-lg' : ''}`} 
+                      variant={plan.highlighted ? "default" : "outline"}
+                      size="lg"
+                    >
                       {plan.cta}
                       <ArrowRightIcon className="h-4 w-4 ml-2" />
                     </Button>
@@ -317,7 +328,7 @@ export default function FeaturesPage() {
             Готовы трансформировать управление задачами?
           </h2>
           <p className="text-lg text-muted-foreground leading-relaxed mb-8">
-            Присоединяйтесь к тысячам профессионалов, которые уже используют Reminder Hub
+            Присоединяйтесь к тысячам профессионалов, которые уже используют Tecta
           </p>
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
             <Link href="/register">

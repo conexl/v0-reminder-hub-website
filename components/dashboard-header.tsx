@@ -44,7 +44,7 @@ export function DashboardHeader() {
       <div className="container mx-auto flex h-16 items-center justify-between px-4">
         <Link href="/dashboard" className="flex items-center gap-2 font-bold text-xl">
           <BrainCircuitIcon className="h-6 w-6 text-primary" />
-          <span>Reminder Hub</span>
+          <span>Tecta</span>
         </Link>
 
         <nav className="hidden md:flex items-center gap-6">

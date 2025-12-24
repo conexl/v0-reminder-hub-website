@@ -1,6 +1,7 @@
 "use client"
 
 import Link from "next/link"
+import Image from "next/image"
 import { useRouter } from "next/navigation"
 import { Button } from "@/components/ui/button"
 import {
@@ -13,7 +14,6 @@ import {
 import { Sheet, SheetContent, SheetHeader, SheetTitle, SheetTrigger } from "@/components/ui/sheet"
 import { Avatar, AvatarFallback } from "@/components/ui/avatar"
 import {
-  BrainCircuitIcon,
   HomeIcon,
   BarChart3Icon,
   MessageSquareIcon,
@@ -49,8 +49,16 @@ export function DashboardHeader() {
     <header className="sticky top-0 z-50 w-full border-b border-border/40 bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
       <div className="container mx-auto flex h-16 items-center justify-between px-4">
         <Link href="/dashboard" className="flex items-center gap-2 font-bold text-xl">
-          <BrainCircuitIcon className="h-6 w-6 text-primary" />
-          <span>Tecta</span>
+          {mounted && (
+            <Image
+              src={currentTheme === "dark" ? "/images/icon-dark-32x32.png" : "/images/icon-light-32x32.png"}
+              alt="Reminder Hub Logo"
+              width={32}
+              height={32}
+              className="h-8 w-8"
+            />
+          )}
+          <span>Reminder Hub</span>
         </Link>
 
         <nav className="hidden md:flex items-center gap-6">
@@ -127,7 +135,15 @@ export function DashboardHeader() {
                 <SheetHeader className="px-6 py-5 border-b bg-gradient-to-r from-primary/10 to-primary/5">
                   <div className="flex items-center justify-between mb-4">
                     <SheetTitle className="text-xl font-bold flex items-center gap-2">
-                      <BrainCircuitIcon className="h-5 w-5 text-primary" />
+                      {mounted && (
+                        <Image
+                          src={currentTheme === "dark" ? "/images/icon-dark-32x32.png" : "/images/icon-light-32x32.png"}
+                          alt="Logo"
+                          width={20}
+                          height={20}
+                          className="h-5 w-5"
+                        />
+                      )}
                       Меню
                     </SheetTitle>
                     <Button variant="ghost" size="icon" className="h-8 w-8" onClick={() => setOpen(false)}>

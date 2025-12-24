@@ -1,11 +1,11 @@
 "use client"
 
 import Link from "next/link"
+import Image from "next/image"
 import { Button } from "@/components/ui/button"
 import {
   MoonIcon,
   SunIcon,
-  BrainCircuitIcon,
   MenuIcon,
   SparklesIcon,
   LayoutDashboardIcon,
@@ -31,10 +31,17 @@ export function Header() {
   return (
     <header className="sticky top-0 z-50 w-full border-b border-border/40 bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
       <div className="container mx-auto flex h-16 items-center justify-between px-4 relative">
-        {/* Логотип слева */}
         <Link href="/" className="flex items-center gap-2 font-bold text-xl z-10">
-          <BrainCircuitIcon className="h-6 w-6 text-primary" />
-          <span className="text-balance">Tecta</span>
+          {mounted && (
+            <Image
+              src={currentTheme === "dark" ? "/images/icon-dark-32x32.png" : "/images/icon-light-32x32.png"}
+              alt="Reminder Hub Logo"
+              width={32}
+              height={32}
+              className="h-8 w-8"
+            />
+          )}
+          <span className="text-balance">Reminder Hub</span>
         </Link>
 
         {/* Навигация строго по центру - только на десктопе */}
@@ -90,7 +97,15 @@ export function Header() {
                 <SheetHeader className="px-6 py-5 border-b bg-gradient-to-r from-primary/10 to-primary/5">
                   <div className="flex items-center justify-between">
                     <SheetTitle className="text-xl font-bold flex items-center gap-2">
-                      <BrainCircuitIcon className="h-5 w-5 text-primary" />
+                      {mounted && (
+                        <Image
+                          src={currentTheme === "dark" ? "/images/icon-dark-32x32.png" : "/images/icon-light-32x32.png"}
+                          alt="Logo"
+                          width={20}
+                          height={20}
+                          className="h-5 w-5"
+                        />
+                      )}
                       Навигация
                     </SheetTitle>
                     <Button variant="ghost" size="icon" className="h-8 w-8" onClick={() => setOpen(false)}>

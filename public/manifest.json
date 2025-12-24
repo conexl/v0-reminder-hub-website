@@ -1,0 +1,27 @@
+{
+  "name": "Reminder Hub - AI Task Management",
+  "short_name": "Reminder Hub",
+  "description": "Автоматически извлекайте задачи из мессенджеров с помощью искусственного интеллекта",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#ffffff",
+  "theme_color": "#0ea5e9",
+  "orientation": "portrait-primary",
+  "icons": [
+    {
+      "src": "/images/icon-light-32x32.png",
+      "sizes": "32x32",
+      "type": "image/png",
+      "purpose": "any maskable"
+    },
+    {
+      "src": "/images/icon-dark-32x32.png",
+      "sizes": "32x32",
+      "type": "image/png",
+      "purpose": "any"
+    }
+  ],
+  "categories": ["productivity", "utilities", "business"],
+  "lang": "ru",
+  "dir": "ltr"
+}

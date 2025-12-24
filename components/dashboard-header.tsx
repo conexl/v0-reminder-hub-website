@@ -22,6 +22,7 @@ import {
   SunIcon,
   MoonIcon,
   MenuIcon,
+  XIcon,
 } from "lucide-react"
 import { logout } from "@/lib/auth"
 import { useTheme } from "next-themes"
@@ -117,61 +118,98 @@ export function DashboardHeader() {
 
           <Sheet open={open} onOpenChange={setOpen}>
             <SheetTrigger asChild className="md:hidden">
-              <Button variant="ghost" size="icon">
+              <Button variant="ghost" size="icon" className="relative">
                 <MenuIcon className="h-5 w-5" />
               </Button>
             </SheetTrigger>
-            <SheetContent side="right" className="w-[300px] sm:w-[400px]">
-              <SheetHeader>
-                <SheetTitle>Меню</SheetTitle>
-              </SheetHeader>
-              <nav className="flex flex-col gap-4 mt-8">
-                <Link
-                  href="/dashboard"
-                  className="flex items-center gap-2 text-lg font-medium text-foreground/80 hover:text-foreground transition-colors"
-                  onClick={() => setOpen(false)}
-                >
-                  <HomeIcon className="h-5 w-5" />
-                  Дашборд
-                </Link>
-                <Link
-                  href="/integrations"
-                  className="flex items-center gap-2 text-lg font-medium text-foreground/80 hover:text-foreground transition-colors"
-                  onClick={() => setOpen(false)}
-                >
-                  <MessageSquareIcon className="h-5 w-5" />
-                  Интеграции
-                </Link>
-                <Link
-                  href="/analytics"
-                  className="flex items-center gap-2 text-lg font-medium text-foreground/80 hover:text-foreground transition-colors"
-                  onClick={() => setOpen(false)}
-                >
-                  <BarChart3Icon className="h-5 w-5" />
-                  Аналитика
-                </Link>
-                <Link
-                  href="/settings"
-                  className="flex items-center gap-2 text-lg font-medium text-foreground/80 hover:text-foreground transition-colors"
-                  onClick={() => setOpen(false)}
-                >
-                  <SettingsIcon className="h-5 w-5" />
-                  Настройки
-                </Link>
-                <div className="border-t pt-4 mt-4">
-                  <Button
-                    variant="destructive"
-                    className="w-full justify-start"
-                    onClick={() => {
-                      setOpen(false)
-                      handleLogout()
-                    }}
-                  >
-                    <LogOutIcon className="h-5 w-5 mr-2" />
-                    Выйти
-                  </Button>
-                </div>
-              </nav>
+            <SheetContent side="right" className="w-[85vw] sm:w-[400px] p-0">
+              <div className="flex flex-col h-full">
+                <SheetHeader className="px-6 py-5 border-b bg-gradient-to-r from-primary/10 to-primary/5">
+                  <div className="flex items-center justify-between mb-4">
+                    <SheetTitle className="text-xl font-bold flex items-center gap-2">
+                      <BrainCircuitIcon className="h-5 w-5 text-primary" />
+                      Меню
+                    </SheetTitle>
+                    <Button variant="ghost" size="icon" className="h-8 w-8" onClick={() => setOpen(false)}>
+                      <XIcon className="h-4 w-4" />
+                    </Button>
+                  </div>
+
+                  <div className="flex items-center gap-3 p-3 rounded-lg bg-background/50 backdrop-blur">
+                    <Avatar className="h-12 w-12 border-2 border-primary/20">
+                      <AvatarFallback className="bg-primary/10 text-primary font-semibold">JD</AvatarFallback>
+                    </Avatar>
+                    <div className="flex-1 min-w-0">
+                      <p className="text-sm font-semibold truncate">John Doe</p>
+                      <p className="text-xs text-muted-foreground truncate">john.doe@example.com</p>
+                    </div>
+                  </div>
+                </SheetHeader>
+
+                <nav className="flex-1 px-4 py-6 overflow-y-auto">
+                  <div className="space-y-2">
+                    <Link
+                      href="/dashboard"
+                      className="flex items-center gap-3 px-4 py-3 rounded-lg text-base font-medium text-foreground/80 hover:text-foreground hover:bg-primary/10 transition-all duration-200 group"
+                      onClick={() => setOpen(false)}
+                    >
+                      <div className="flex items-center justify-center h-10 w-10 rounded-lg bg-primary/10 group-hover:bg-primary/20 transition-colors">
+                        <HomeIcon className="h-5 w-5 text-primary" />
+                      </div>
+                      <span>Дашборд</span>
+                    </Link>
+
+                    <Link
+                      href="/integrations"
+                      className="flex items-center gap-3 px-4 py-3 rounded-lg text-base font-medium text-foreground/80 hover:text-foreground hover:bg-primary/10 transition-all duration-200 group"
+                      onClick={() => setOpen(false)}
+                    >
+                      <div className="flex items-center justify-center h-10 w-10 rounded-lg bg-primary/10 group-hover:bg-primary/20 transition-colors">
+                        <MessageSquareIcon className="h-5 w-5 text-primary" />
+                      </div>
+                      <span>Интеграции</span>
+                    </Link>
+
+                    <Link
+                      href="/analytics"
+                      className="flex items-center gap-3 px-4 py-3 rounded-lg text-base font-medium text-foreground/80 hover:text-foreground hover:bg-primary/10 transition-all duration-200 group"
+                      onClick={() => setOpen(false)}
+                    >
+                      <div className="flex items-center justify-center h-10 w-10 rounded-lg bg-primary/10 group-hover:bg-primary/20 transition-colors">
+                        <BarChart3Icon className="h-5 w-5 text-primary" />
+                      </div>
+                      <span>Аналитика</span>
+                    </Link>
+
+                    <Link
+                      href="/settings"
+                      className="flex items-center gap-3 px-4 py-3 rounded-lg text-base font-medium text-foreground/80 hover:text-foreground hover:bg-primary/10 transition-all duration-200 group"
+                      onClick={() => setOpen(false)}
+                    >
+                      <div className="flex items-center justify-center h-10 w-10 rounded-lg bg-primary/10 group-hover:bg-primary/20 transition-colors">
+                        <SettingsIcon className="h-5 w-5 text-primary" />
+                      </div>
+                      <span>Настройки</span>
+                    </Link>
+                  </div>
+
+                  <div className="mt-8 pt-6 border-t">
+                    <Button
+                      variant="destructive"
+                      className="w-full h-12 text-base font-medium justify-start"
+                      onClick={() => {
+                        setOpen(false)
+                        handleLogout()
+                      }}
+                    >
+                      <div className="flex items-center justify-center h-10 w-10 rounded-lg bg-destructive-foreground/10 mr-3">
+                        <LogOutIcon className="h-5 w-5" />
+                      </div>
+                      Выйти из аккаунта
+                    </Button>
+                  </div>
+                </nav>
+              </div>
             </SheetContent>
           </Sheet>
         </div>

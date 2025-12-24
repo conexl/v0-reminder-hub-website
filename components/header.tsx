@@ -2,7 +2,17 @@
 
 import Link from "next/link"
 import { Button } from "@/components/ui/button"
-import { MoonIcon, SunIcon, BrainCircuitIcon, MenuIcon } from "lucide-react"
+import {
+  MoonIcon,
+  SunIcon,
+  BrainCircuitIcon,
+  MenuIcon,
+  SparklesIcon,
+  LayoutDashboardIcon,
+  BarChart3Icon,
+  MessageSquareIcon,
+  XIcon,
+} from "lucide-react"
 import { useTheme } from "next-themes"
 import { useEffect, useState } from "react"
 import { Sheet, SheetContent, SheetHeader, SheetTitle, SheetTrigger } from "@/components/ui/sheet"
@@ -71,54 +81,85 @@ export function Header() {
 
           <Sheet open={open} onOpenChange={setOpen}>
             <SheetTrigger asChild className="md:hidden">
-              <Button variant="ghost" size="icon">
+              <Button variant="ghost" size="icon" className="relative">
                 <MenuIcon className="h-5 w-5" />
               </Button>
             </SheetTrigger>
-            <SheetContent side="right" className="w-[300px] sm:w-[400px]">
-              <SheetHeader>
-                <SheetTitle>Меню</SheetTitle>
-              </SheetHeader>
-              <nav className="flex flex-col gap-4 mt-8">
-                <Link
-                  href="/features"
-                  className="text-lg font-medium text-foreground/80 hover:text-foreground transition-colors"
-                  onClick={() => setOpen(false)}
-                >
-                  Возможности
-                </Link>
-                <Link
-                  href="/dashboard"
-                  className="text-lg font-medium text-foreground/80 hover:text-foreground transition-colors"
-                  onClick={() => setOpen(false)}
-                >
-                  Дашборд
-                </Link>
-                <Link
-                  href="/analytics"
-                  className="text-lg font-medium text-foreground/80 hover:text-foreground transition-colors"
-                  onClick={() => setOpen(false)}
-                >
-                  Аналитика
-                </Link>
-                <Link
-                  href="/integrations"
-                  className="text-lg font-medium text-foreground/80 hover:text-foreground transition-colors"
-                  onClick={() => setOpen(false)}
-                >
-                  Интеграции
-                </Link>
-                <div className="border-t pt-4 mt-4 space-y-2">
-                  <Link href="/login" className="block" onClick={() => setOpen(false)}>
-                    <Button variant="ghost" className="w-full justify-start">
-                      Войти
+            <SheetContent side="right" className="w-[85vw] sm:w-[400px] p-0">
+              <div className="flex flex-col h-full">
+                <SheetHeader className="px-6 py-5 border-b bg-gradient-to-r from-primary/10 to-primary/5">
+                  <div className="flex items-center justify-between">
+                    <SheetTitle className="text-xl font-bold flex items-center gap-2">
+                      <BrainCircuitIcon className="h-5 w-5 text-primary" />
+                      Навигация
+                    </SheetTitle>
+                    <Button variant="ghost" size="icon" className="h-8 w-8" onClick={() => setOpen(false)}>
+                      <XIcon className="h-4 w-4" />
                     </Button>
-                  </Link>
-                  <Link href="/register" className="block" onClick={() => setOpen(false)}>
-                    <Button className="w-full">Начать</Button>
-                  </Link>
-                </div>
-              </nav>
+                  </div>
+                </SheetHeader>
+
+                <nav className="flex-1 px-4 py-6 overflow-y-auto">
+                  <div className="space-y-2">
+                    <Link
+                      href="/features"
+                      className="flex items-center gap-3 px-4 py-3 rounded-lg text-base font-medium text-foreground/80 hover:text-foreground hover:bg-primary/10 transition-all duration-200 group"
+                      onClick={() => setOpen(false)}
+                    >
+                      <div className="flex items-center justify-center h-10 w-10 rounded-lg bg-primary/10 group-hover:bg-primary/20 transition-colors">
+                        <SparklesIcon className="h-5 w-5 text-primary" />
+                      </div>
+                      <span>Возможности</span>
+                    </Link>
+
+                    <Link
+                      href="/dashboard"
+                      className="flex items-center gap-3 px-4 py-3 rounded-lg text-base font-medium text-foreground/80 hover:text-foreground hover:bg-primary/10 transition-all duration-200 group"
+                      onClick={() => setOpen(false)}
+                    >
+                      <div className="flex items-center justify-center h-10 w-10 rounded-lg bg-primary/10 group-hover:bg-primary/20 transition-colors">
+                        <LayoutDashboardIcon className="h-5 w-5 text-primary" />
+                      </div>
+                      <span>Дашборд</span>
+                    </Link>
+
+                    <Link
+                      href="/analytics"
+                      className="flex items-center gap-3 px-4 py-3 rounded-lg text-base font-medium text-foreground/80 hover:text-foreground hover:bg-primary/10 transition-all duration-200 group"
+                      onClick={() => setOpen(false)}
+                    >
+                      <div className="flex items-center justify-center h-10 w-10 rounded-lg bg-primary/10 group-hover:bg-primary/20 transition-colors">
+                        <BarChart3Icon className="h-5 w-5 text-primary" />
+                      </div>
+                      <span>Аналитика</span>
+                    </Link>
+
+                    <Link
+                      href="/integrations"
+                      className="flex items-center gap-3 px-4 py-3 rounded-lg text-base font-medium text-foreground/80 hover:text-foreground hover:bg-primary/10 transition-all duration-200 group"
+                      onClick={() => setOpen(false)}
+                    >
+                      <div className="flex items-center justify-center h-10 w-10 rounded-lg bg-primary/10 group-hover:bg-primary/20 transition-colors">
+                        <MessageSquareIcon className="h-5 w-5 text-primary" />
+                      </div>
+                      <span>Интеграции</span>
+                    </Link>
+                  </div>
+
+                  <div className="mt-8 pt-6 border-t space-y-3">
+                    <Link href="/login" className="block" onClick={() => setOpen(false)}>
+                      <Button variant="outline" className="w-full h-12 text-base font-medium bg-transparent">
+                        Войти
+                      </Button>
+                    </Link>
+                    <Link href="/register" className="block" onClick={() => setOpen(false)}>
+                      <Button className="w-full h-12 text-base font-medium bg-gradient-to-r from-primary to-primary/90 hover:from-primary/90 hover:to-primary">
+                        Начать бесплатно
+                      </Button>
+                    </Link>
+                  </div>
+                </nav>
+              </div>
             </SheetContent>
           </Sheet>
         </div>

@@ -49,16 +49,8 @@ export function DashboardHeader() {
     <header className="sticky top-0 z-50 w-full border-b border-border/40 bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
       <div className="container mx-auto flex h-16 items-center justify-between px-4">
         <Link href="/dashboard" className="flex items-center gap-2 font-bold text-xl">
-          {mounted && (
-            <Image
-              src={currentTheme === "dark" ? "/images/icon-dark-32x32.png" : "/images/icon-light-32x32.png"}
-              alt="Reminder Hub Logo"
-              width={32}
-              height={32}
-              className="h-8 w-8"
-            />
-          )}
-          <span>Reminder Hub</span>
+          {mounted && <Image src="/images/icon.svg" alt="Tecta Logo" width={32} height={32} className="h-8 w-8" />}
+          <span>Tecta</span>
         </Link>
 
         <nav className="hidden md:flex items-center gap-6">
@@ -136,13 +128,7 @@ export function DashboardHeader() {
                   <div className="flex items-center justify-between mb-4">
                     <SheetTitle className="text-xl font-bold flex items-center gap-2">
                       {mounted && (
-                        <Image
-                          src={currentTheme === "dark" ? "/images/icon-dark-32x32.png" : "/images/icon-light-32x32.png"}
-                          alt="Logo"
-                          width={20}
-                          height={20}
-                          className="h-5 w-5"
-                        />
+                        <Image src="/images/icon.svg" alt="Logo" width={20} height={20} className="h-5 w-5" />
                       )}
                       Меню
                     </SheetTitle>

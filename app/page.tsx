@@ -2,6 +2,8 @@ import { Header } from "@/components/header"
 import { Button } from "@/components/ui/button"
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
 import { Badge } from "@/components/ui/badge"
+import Image from "next/image"
+import Link from "next/link"
 import {
   BrainCircuitIcon,
   MessageSquareIcon,
@@ -13,7 +15,6 @@ import {
   ArrowRightIcon,
   CheckCircleIcon,
 } from "lucide-react"
-import Link from "next/link"
 
 const plans = [
   {
@@ -87,8 +88,8 @@ export default function Home() {
             </h1>
 
             <p className="text-balance text-lg md:text-xl text-muted-foreground mb-8 max-w-2xl mx-auto leading-relaxed">
-              Tecta использует ИИ для автоматического анализа ваших разговоров в мессенджерах, извлечения
-              обязательств и дедлайнов, превращая их в интеллектуальные напоминания.
+              Tecta использует ИИ для автоматического анализа ваших разговоров в мессенджерах, извлечения обязательств и
+              дедлайнов, превращая их в интеллектуальные напоминания.
             </p>
 
             <div className="flex flex-col sm:flex-row items-center justify-center gap-4 mb-12">
@@ -246,7 +247,7 @@ export default function Home() {
         </div>
       </section>
 
-{/* Pricing Section */}
+      {/* Pricing Section */}
       <section className="pt-20 pb-8 px-4">
         <div className="container mx-auto max-w-7xl">
           <div className="text-center mb-12">
@@ -292,8 +293,8 @@ export default function Home() {
                     ))}
                   </ul>
                   <Link href="/register" className="w-full mt-auto">
-                    <Button 
-                      className={`w-full transition-all duration-300 ${plan.highlighted ? 'shadow-md hover:shadow-lg' : ''}`} 
+                    <Button
+                      className={`w-full transition-all duration-300 ${plan.highlighted ? "shadow-md hover:shadow-lg" : ""}`}
                       variant={plan.highlighted ? "default" : "outline"}
                       size="lg"
                     >
@@ -355,7 +356,7 @@ export default function Home() {
         <div className="container mx-auto px-4">
           <div className="flex flex-col md:flex-row items-center justify-between gap-4">
             <div className="flex items-center gap-2 font-bold text-xl">
-              <BrainCircuitIcon className="h-6 w-6 text-primary" />
+              <Image src="/images/icon.svg" alt="Tecta" width={24} height={24} className="h-6 w-6" />
               <span>Tecta</span>
             </div>
             <p className="text-sm text-muted-foreground">© 2025 Tecta. Все права защищены.</p>

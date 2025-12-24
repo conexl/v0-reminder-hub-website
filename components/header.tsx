@@ -32,16 +32,8 @@ export function Header() {
     <header className="sticky top-0 z-50 w-full border-b border-border/40 bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
       <div className="container mx-auto flex h-16 items-center justify-between px-4 relative">
         <Link href="/" className="flex items-center gap-2 font-bold text-xl z-10">
-          {mounted && (
-            <Image
-              src={currentTheme === "dark" ? "/images/icon-dark-32x32.png" : "/images/icon-light-32x32.png"}
-              alt="Reminder Hub Logo"
-              width={32}
-              height={32}
-              className="h-8 w-8"
-            />
-          )}
-          <span className="text-balance">Reminder Hub</span>
+          <Image src="/images/icon.svg" alt="Tecta Logo" width={32} height={32} className="h-8 w-8" />
+          <span className="text-balance">Tecta</span>
         </Link>
 
         {/* Навигация строго по центру - только на десктопе */}
@@ -97,15 +89,7 @@ export function Header() {
                 <SheetHeader className="px-6 py-5 border-b bg-gradient-to-r from-primary/10 to-primary/5">
                   <div className="flex items-center justify-between">
                     <SheetTitle className="text-xl font-bold flex items-center gap-2">
-                      {mounted && (
-                        <Image
-                          src={currentTheme === "dark" ? "/images/icon-dark-32x32.png" : "/images/icon-light-32x32.png"}
-                          alt="Logo"
-                          width={20}
-                          height={20}
-                          className="h-5 w-5"
-                        />
-                      )}
+                      <Image src="/images/icon.svg" alt="Logo" width={20} height={20} className="h-5 w-5" />
                       Навигация
                     </SheetTitle>
                     <Button variant="ghost" size="icon" className="h-8 w-8" onClick={() => setOpen(false)}>

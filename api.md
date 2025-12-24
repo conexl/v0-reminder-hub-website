@@ -1,10 +1,10 @@
-# Reminder Hub API Documentation
+# Tecta API Documentation
 
 ## Overview
 
-Reminder Hub is an AI-powered task management system that automatically analyzes messenger conversations, extracts commitments and deadlines, and transforms them into intelligent reminders.
+Tecta is an AI-powered task management system that automatically analyzes messenger conversations, extracts commitments and deadlines, and transforms them into intelligent reminders.
 
-**Base URL:** `https://api.reminderhub.com`
+**Base URL:** `https://api.tecta.app`
 
 **API Version:** `v1`
 
@@ -29,9 +29,9 @@ Reminder Hub is an AI-powered task management system that automatically analyzes
 
 All API requests (except registration and login) require a valid JWT token in the Authorization header:
 
-\`\`\`
+```
 Authorization: Bearer <your_jwt_token>
-\`\`\`
+```
 
 ### Register
 
@@ -40,16 +40,16 @@ Create a new user account.
 **Endpoint:** `POST /api/v1/auth/register`
 
 **Request Body:**
-\`\`\`json
+```json
 {
   "name": "John Doe",
   "email": "john.doe@example.com",
   "password": "SecurePassword123!"
 }
-\`\`\`
+```
 
 **Response (201 Created):**
-\`\`\`json
+```json
 {
   "success": true,
   "data": {
@@ -62,7 +62,7 @@ Create a new user account.
     "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9..."
   }
 }
-\`\`\`
+```
 
 ### Login
 
@@ -71,15 +71,15 @@ Authenticate and receive a JWT token.
 **Endpoint:** `POST /api/v1/auth/login`
 
 **Request Body:**
-\`\`\`json
+```json
 {
   "email": "john.doe@example.com",
   "password": "SecurePassword123!"
 }
-\`\`\`
+```
 
 **Response (200 OK):**
-\`\`\`json
+```json
 {
   "success": true,
   "data": {
@@ -87,7 +87,7 @@ Authenticate and receive a JWT token.
     "expiresIn": 86400
   }
 }
-\`\`\`
+```
 
 ### Get Current User
 
@@ -96,14 +96,14 @@ Retrieve information about the authenticated user.
 **Endpoint:** `GET /api/v1/auth/me`
 
 **Response (200 OK):**
-\`\`\`json
+```json
 {
   "success": true,
   "data": {
     "id": "user_123abc",
     "name": "John Doe",
     "email": "john.doe@example.com",
-    "avatar": "https://cdn.reminderhub.com/avatars/user_123abc.jpg",
+    "avatar": "https://cdn.tecta.app/avatars/user_123abc.jpg",
     "createdAt": "2025-01-01T00:00:00Z",
     "subscription": {
       "plan": "premium",
@@ -111,7 +111,7 @@ Retrieve information about the authenticated user.
     }
   }
 }
-\`\`\`
+```
 
 ---
 
@@ -124,16 +124,16 @@ Update user profile information.
 **Endpoint:** `PUT /api/v1/users/profile`
 
 **Request Body:**
-\`\`\`json
+```json
 {
   "name": "John Smith",
   "bio": "Product manager and AI enthusiast",
   "avatar": "base64_encoded_image_data"
 }
-\`\`\`
+```
 
 **Response (200 OK):**
-\`\`\`json
+```json
 {
   "success": true,
   "data": {
@@ -142,11 +142,11 @@ Update user profile information.
       "name": "John Smith",
       "email": "john.doe@example.com",
       "bio": "Product manager and AI enthusiast",
-      "avatar": "https://cdn.reminderhub.com/avatars/user_123abc.jpg"
+      "avatar": "https://cdn.tecta.app/avatars/user_123abc.jpg"
     }
   }
 }
-\`\`\`
+```
 
 ### Update Preferences
 
@@ -155,7 +155,7 @@ Update application preferences.
 **Endpoint:** `PUT /api/v1/users/preferences`
 
 **Request Body:**
-\`\`\`json
+```json
 {
   "theme": "dark",
   "language": "en",
@@ -166,15 +166,15 @@ Update application preferences.
     "weeklyReport": false
   }
 }
-\`\`\`
+```
 
 **Response (200 OK):**
-\`\`\`json
+```json
 {
   "success": true,
   "message": "Preferences updated successfully"
 }
-\`\`\`
+```
 
 ---
 
@@ -187,7 +187,7 @@ Retrieve all connected messenger integrations.
 **Endpoint:** `GET /api/v1/integrations/messengers`
 
 **Response (200 OK):**
-\`\`\`json
+```json
 {
   "success": true,
   "data": {
@@ -224,7 +224,7 @@ Retrieve all connected messenger integrations.
     "totalIntegrations": 2
   }
 }
-\`\`\`
+```
 
 ### Create Integration
 
@@ -235,7 +235,7 @@ Connect a new messenger platform.
 **Supported Platforms:** `telegram`, `whatsapp`, `slack`, `discord`
 
 **Request Body (Telegram Example):**
-\`\`\`json
+```json
 {
   "platform": "telegram",
   "credentials": {
@@ -246,10 +246,10 @@ Connect a new messenger platform.
     "analyzeGroups": true
   }
 }
-\`\`\`
+```
 
 **Request Body (Slack Example):**
-\`\`\`json
+```json
 {
   "platform": "slack",
   "credentials": {
@@ -261,10 +261,10 @@ Connect a new messenger platform.
     "analyzeGroups": true
   }
 }
-\`\`\`
+```
 
 **Response (201 Created):**
-\`\`\`json
+```json
 {
   "success": true,
   "data": {
@@ -283,7 +283,7 @@ Connect a new messenger platform.
     }
   }
 }
-\`\`\`
+```
 
 ### Update Integration Settings
 
@@ -292,17 +292,17 @@ Modify settings for an existing integration.
 **Endpoint:** `PUT /api/v1/integrations/messengers/:integrationId`
 
 **Request Body:**
-\`\`\`json
+```json
 {
   "settings": {
     "analyzePrivateChats": false,
     "analyzeGroups": true
   }
 }
-\`\`\`
+```
 
 **Response (200 OK):**
-\`\`\`json
+```json
 {
   "success": true,
   "data": {
@@ -317,7 +317,7 @@ Modify settings for an existing integration.
     }
   }
 }
-\`\`\`
+```
 
 ### Delete Integration
 
@@ -326,12 +326,12 @@ Disconnect a messenger platform.
 **Endpoint:** `DELETE /api/v1/integrations/messengers/:integrationId`
 
 **Response (200 OK):**
-\`\`\`json
+```json
 {
   "success": true,
   "message": "Integration deleted successfully"
 }
-\`\`\`
+```
 
 ---
 
@@ -353,7 +353,7 @@ Retrieve all reminders with optional filtering.
 **Example:** `GET /api/v1/reminders?status=pending&priority=high&limit=20`
 
 **Response (200 OK):**
-\`\`\`json
+```json
 {
   "success": true,
   "data": {
@@ -397,7 +397,7 @@ Retrieve all reminders with optional filtering.
     }
   }
 }
-\`\`\`
+```
 
 ### Get Single Reminder
 
@@ -406,7 +406,7 @@ Retrieve details of a specific reminder.
 **Endpoint:** `GET /api/v1/reminders/:reminderId`
 
 **Response (200 OK):**
-\`\`\`json
+```json
 {
   "success": true,
   "data": {
@@ -430,7 +430,7 @@ Retrieve details of a specific reminder.
     }
   }
 }
-\`\`\`
+```
 
 ### Create Reminder (Manual)
 
@@ -439,17 +439,17 @@ Manually create a new reminder.
 **Endpoint:** `POST /api/v1/reminders`
 
 **Request Body:**
-\`\`\`json
+```json
 {
   "title": "Team meeting preparation",
   "description": "Prepare slides and agenda for weekly sync",
   "dueDate": "2025-01-16T09:00:00Z",
   "priority": "medium"
 }
-\`\`\`
+```
 
 **Response (201 Created):**
-\`\`\`json
+```json
 {
   "success": true,
   "data": {
@@ -467,7 +467,7 @@ Manually create a new reminder.
     }
   }
 }
-\`\`\`
+```
 
 ### Update Reminder
 
@@ -476,17 +476,17 @@ Modify an existing reminder.
 **Endpoint:** `PUT /api/v1/reminders/:reminderId`
 
 **Request Body:**
-\`\`\`json
+```json
 {
   "title": "Updated title",
   "description": "Updated description",
   "dueDate": "2025-01-17T14:00:00Z",
   "priority": "high"
 }
-\`\`\`
+```
 
 **Response (200 OK):**
-\`\`\`json
+```json
 {
   "success": true,
   "data": {
@@ -503,7 +503,7 @@ Modify an existing reminder.
     }
   }
 }
-\`\`\`
+```
 
 ### Complete Reminder
 
@@ -512,7 +512,7 @@ Mark a reminder as completed.
 **Endpoint:** `POST /api/v1/reminders/:reminderId/complete`
 
 **Response (200 OK):**
-\`\`\`json
+```json
 {
   "success": true,
   "data": {
@@ -523,7 +523,7 @@ Mark a reminder as completed.
     }
   }
 }
-\`\`\`
+```
 
 ### Delete Reminder
 
@@ -532,12 +532,12 @@ Permanently delete a reminder.
 **Endpoint:** `DELETE /api/v1/reminders/:reminderId`
 
 **Response (200 OK):**
-\`\`\`json
+```json
 {
   "success": true,
   "message": "Reminder deleted successfully"
 }
-\`\`\`
+```
 
 ---
 
@@ -554,7 +554,7 @@ Retrieve comprehensive analytics about tasks and productivity.
 - `timezone` (optional): User timezone (default: `UTC`)
 
 **Response (200 OK):**
-\`\`\`json
+```json
 {
   "success": true,
   "data": {
@@ -625,13 +625,13 @@ Retrieve comprehensive analytics about tasks and productivity.
     }
   }
 }
-\`\`\`
+```
 
 ---
 
 ## Webhooks
 
-Subscribe to real-time events from Reminder Hub.
+Subscribe to real-time events from Tecta.
 
 ### Supported Events
 
@@ -647,16 +647,16 @@ Subscribe to real-time events from Reminder Hub.
 **Endpoint:** `POST /api/v1/webhooks`
 
 **Request Body:**
-\`\`\`json
+```json
 {
   "url": "https://your-domain.com/webhook-endpoint",
   "events": ["reminder.extracted", "reminder.overdue"],
   "secret": "your_webhook_secret_key"
 }
-\`\`\`
+```
 
 **Response (201 Created):**
-\`\`\`json
+```json
 {
   "success": true,
   "data": {
@@ -669,13 +669,13 @@ Subscribe to real-time events from Reminder Hub.
     }
   }
 }
-\`\`\`
+```
 
 ### Webhook Payload Example
 
-When an event occurs, Reminder Hub sends a POST request to your webhook URL:
+When an event occurs, Tecta sends a POST request to your webhook URL:
 
-\`\`\`json
+```json
 {
   "event": "reminder.extracted",
   "timestamp": "2025-01-15T12:30:00Z",
@@ -693,13 +693,13 @@ When an event occurs, Reminder Hub sends a POST request to your webhook URL:
   },
   "signature": "sha256=abc123def456..."
 }
-\`\`\`
+```
 
 ### Webhook Signature Verification
 
 All webhook payloads include a signature in the `X-Webhook-Signature` header. Verify it using HMAC SHA-256:
 
-\`\`\`javascript
+```javascript
 const crypto = require('crypto');
 
 function verifySignature(payload, signature, secret) {
@@ -710,7 +710,7 @@ function verifySignature(payload, signature, secret) {
     Buffer.from(digest)
   );
 }
-\`\`\`
+```
 
 ---
 
@@ -718,7 +718,7 @@ function verifySignature(payload, signature, secret) {
 
 All errors follow a consistent format:
 
-\`\`\`json
+```json
 {
   "success": false,
   "error": {
@@ -727,7 +727,7 @@ All errors follow a consistent format:
     "details": {}
   }
 }
-\`\`\`
+```
 
 ### Common Error Codes
 
@@ -753,15 +753,15 @@ API requests are rate-limited to ensure fair usage:
 
 Rate limit information is included in response headers:
 
-\`\`\`
+```
 X-RateLimit-Limit: 1000
 X-RateLimit-Remaining: 987
 X-RateLimit-Reset: 1642262400
-\`\`\`
+```
 
 When the limit is exceeded, you'll receive a `429 Too Many Requests` response:
 
-\`\`\`json
+```json
 {
   "success": false,
   "error": {
@@ -770,7 +770,7 @@ When the limit is exceeded, you'll receive a `429 Too Many Requests` response:
     "retryAfter": 900
   }
 }
-\`\`\`
+```
 
 ---
 
@@ -778,11 +778,11 @@ When the limit is exceeded, you'll receive a `429 Too Many Requests` response:
 
 ### JavaScript/Node.js
 
-\`\`\`javascript
+```javascript
 const axios = require('axios');
 
 const client = axios.create({
-  baseURL: 'https://api.reminderhub.com/api/v1',
+  baseURL: 'https://api.tecta.app/api/v1',
   headers: {
     'Authorization': 'Bearer YOUR_JWT_TOKEN',
     'Content-Type': 'application/json'
@@ -804,14 +804,14 @@ const newReminder = await client.post('/reminders', {
 
 // Complete reminder
 await client.post(`/reminders/${reminderId}/complete`);
-\`\`\`
+```
 
 ### Python
 
-\`\`\`python
+```python
 import requests
 
-BASE_URL = 'https://api.reminderhub.com/api/v1'
+BASE_URL = 'https://api.tecta.app/api/v1'
 HEADERS = {
     'Authorization': 'Bearer YOUR_JWT_TOKEN',
     'Content-Type': 'application/json'
@@ -843,16 +843,16 @@ requests.post(
     f'{BASE_URL}/reminders/{reminder_id}/complete',
     headers=HEADERS
 )
-\`\`\`
+```
 
 ---
 
 ## Support
 
-- **Documentation:** https://docs.reminderhub.com
-- **Status Page:** https://status.reminderhub.com
-- **Support Email:** support@reminderhub.com
-- **Discord Community:** https://discord.gg/reminderhub
+- **Documentation:** https://docs.tecta.app
+- **Status Page:** https://status.tecta.app
+- **Support Email:** support@tecta.app
+- **Discord Community:** https://discord.gg/tecta
 
-**Last Updated:** December 22, 2025
+**Last Updated:** December 24, 2025
 **API Version:** v1.0.0

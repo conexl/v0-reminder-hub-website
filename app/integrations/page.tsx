@@ -222,7 +222,7 @@ export default function IntegrationsPage() {
                 integrations.map((integration) => (
                   <Card key={integration.id} className="border-2">
                     <CardContent className="pt-6">
-                      <div className="flex items-start justify-between gap-4">
+                      <div className="flex flex-col lg:flex-row lg:items-start lg:justify-between gap-4">
                         <div className="flex items-start gap-4 flex-1">
                           <div className="h-12 w-12 rounded-lg bg-primary/10 flex items-center justify-center">
                             {getPlatformIcon(integration.platform)}
@@ -244,7 +244,7 @@ export default function IntegrationsPage() {
                               <p className="text-sm text-muted-foreground">{integration.username}</p>
                             </div>
 
-                            <div className="grid grid-cols-2 md:grid-cols-3 gap-4 text-sm">
+                            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 text-sm">
                               <div>
                                 <div className="text-muted-foreground">Отслеживаемые чаты</div>
                                 <div className="font-semibold">{integration.monitoredChatsCount}</div>
@@ -253,7 +253,7 @@ export default function IntegrationsPage() {
                                 <div className="text-muted-foreground">Извлечено задач</div>
                                 <div className="font-semibold text-primary">{integration.tasksExtracted}</div>
                               </div>
-                              <div className="col-span-2 md:col-span-1">
+                              <div className="col-span-1 sm:col-span-2 lg:col-span-1">
                                 <div className="text-muted-foreground">Настройки</div>
                                 <div className="flex gap-2 mt-1">
                                   {integration.settings.analyzePrivateChats && (
@@ -272,7 +272,7 @@ export default function IntegrationsPage() {
                           </div>
                         </div>
 
-                        <div className="flex items-center gap-2">
+                        <div className="flex items-center gap-2 self-start">
                           <Button variant="outline" size="sm" onClick={() => handleConfigureIntegration(integration)}>
                             <SettingsIcon className="h-4 w-4 mr-2" />
                             Настроить

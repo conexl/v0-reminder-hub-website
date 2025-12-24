@@ -61,22 +61,22 @@ export default function SettingsPage() {
           </div>
 
           <Tabs defaultValue="profile" className="space-y-6">
-            <TabsList className="grid w-full grid-cols-4 max-w-[600px]">
-              <TabsTrigger value="profile">
-                <UserIcon className="h-4 w-4 mr-2" />
-                <span className="hidden sm:inline">Профиль</span>
+            <TabsList className="grid w-full grid-cols-4 h-auto">
+              <TabsTrigger value="profile" className="flex flex-col sm:flex-row items-center gap-1 sm:gap-2 py-2">
+                <UserIcon className="h-4 w-4" />
+                <span className="text-xs sm:text-sm">Профиль</span>
               </TabsTrigger>
-              <TabsTrigger value="notifications">
-                <BellIcon className="h-4 w-4 mr-2" />
-                <span className="hidden sm:inline">Уведомления</span>
+              <TabsTrigger value="notifications" className="flex flex-col sm:flex-row items-center gap-1 sm:gap-2 py-2">
+                <BellIcon className="h-4 w-4" />
+                <span className="text-xs sm:text-sm">Уведомления</span>
               </TabsTrigger>
-              <TabsTrigger value="preferences">
-                <PaletteIcon className="h-4 w-4 mr-2" />
-                <span className="hidden sm:inline">Предпочтения</span>
+              <TabsTrigger value="preferences" className="flex flex-col sm:flex-row items-center gap-1 sm:gap-2 py-2">
+                <PaletteIcon className="h-4 w-4" />
+                <span className="text-xs sm:text-sm">Предпочтения</span>
               </TabsTrigger>
-              <TabsTrigger value="security">
-                <ShieldCheckIcon className="h-4 w-4 mr-2" />
-                <span className="hidden sm:inline">Безопасность</span>
+              <TabsTrigger value="security" className="flex flex-col sm:flex-row items-center gap-1 sm:gap-2 py-2">
+                <ShieldCheckIcon className="h-4 w-4" />
+                <span className="text-xs sm:text-sm">Безопасность</span>
               </TabsTrigger>
             </TabsList>
 
@@ -93,7 +93,7 @@ export default function SettingsPage() {
                       <AvatarFallback className="text-2xl">ИИ</AvatarFallback>
                     </Avatar>
                     <div className="space-y-2">
-                      <Button variant="outline" size="sm">
+                      <Button variant="outline" size="sm" className="w-full sm:w-auto bg-transparent">
                         Изменить аватар
                       </Button>
                       <p className="text-xs text-muted-foreground">JPG, GIF или PNG. Макс. размер 2MB</p>
@@ -134,7 +134,7 @@ export default function SettingsPage() {
                     </div>
                   </div>
 
-                  <div className="flex gap-3 pt-4">
+                  <div className="flex flex-col sm:flex-row gap-3 pt-4">
                     <Button onClick={handleSaveProfile} disabled={isSaving}>
                       {isSaving ? "Сохранение..." : "Сохранить изменения"}
                       {!isSaving && <CheckIcon className="h-4 w-4" />}

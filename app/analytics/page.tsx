@@ -119,7 +119,7 @@ export default function AnalyticsPage() {
           </div>
 
           {/* Key Metrics */}
-          <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-4 mb-8">
+          <div className="grid gap-4 grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 mb-8">
             <Card>
               <CardHeader className="pb-3">
                 <CardDescription>Процент выполнения</CardDescription>
@@ -161,9 +161,9 @@ export default function AnalyticsPage() {
             </Card>
 
             <Card>
-              <CardHeader className="pb-3">
-                <CardDescription>Активные платформы</CardDescription>
-                <CardTitle className="text-3xl">4</CardTitle>
+              <CardHeader>
+                <CardTitle>Активные платформы</CardTitle>
+                <CardDescription>4</CardDescription>
               </CardHeader>
               <CardContent>
                 <div className="flex gap-2">
@@ -179,7 +179,7 @@ export default function AnalyticsPage() {
           </div>
 
           {/* Charts Row 1 */}
-          <div className="grid gap-6 md:grid-cols-2 mb-6">
+          <div className="grid gap-6 grid-cols-1 lg:grid-cols-2 mb-6">
             <Card>
               <CardHeader>
                 <CardTitle>Тренд выполнения задач</CardTitle>
@@ -253,7 +253,7 @@ export default function AnalyticsPage() {
           </div>
 
           {/* Charts Row 2 */}
-          <div className="grid gap-6 md:grid-cols-2 mb-6">
+          <div className="grid gap-6 grid-cols-1 lg:grid-cols-2 mb-6">
             <Card>
               <CardHeader>
                 <CardTitle>Среднее время ответа</CardTitle>
@@ -333,7 +333,7 @@ export default function AnalyticsPage() {
               <CardDescription>Детальные метрики для каждой подключенной платформы мессенджера</CardDescription>
             </CardHeader>
             <CardContent>
-              <div className="grid gap-4 md:grid-cols-2">
+              <div className="grid gap-4 grid-cols-1 lg:grid-cols-2">
                 {platformData.map((platform) => (
                   <Card key={platform.platform} className="border-2">
                     <CardHeader className="pb-3">
@@ -346,7 +346,7 @@ export default function AnalyticsPage() {
                       </div>
                     </CardHeader>
                     <CardContent className="space-y-3">
-                      <div className="grid grid-cols-3 gap-4 text-sm">
+                      <div className="grid grid-cols-3 gap-2 sm:gap-4 text-sm">
                         <div>
                           <div className="text-muted-foreground">Извлечено</div>
                           <div className="font-semibold text-lg">{platform.tasks}</div>

@@ -32,8 +32,8 @@ export function Header() {
     <header className="sticky top-0 z-50 w-full border-b border-border/40 bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
       <div className="container mx-auto flex h-16 items-center justify-between px-4 relative">
         <Link href="/" className="flex items-center gap-2 font-bold text-xl z-10">
-          <Image src="/images/icon.svg" alt="Tecta Logo" width={32} height={32} className="h-8 w-8" />
-          <span className="text-balance">Tecta</span>
+          <Image src="/images/icon.svg" alt="reminder  hub Logo" width={32} height={32} className="h-8 w-8" />
+          <span className="text-balance">reminder  hub</span>
         </Link>
 
         {/* Навигация строго по центру - только на десктопе */}

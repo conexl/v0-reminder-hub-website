@@ -1,10 +1,10 @@
-# Tecta API Documentation
+# reminder  hub API Documentation
 
 ## Overview
 
-Tecta is an AI-powered task management system that automatically analyzes messenger conversations, extracts commitments and deadlines, and transforms them into intelligent reminders.
+reminder  hub is an AI-powered task management system that automatically analyzes messenger conversations, extracts commitments and deadlines, and transforms them into intelligent reminders.
 
-**Base URL:** `https://api.tecta.app`
+**Base URL:** `https://api.reminder hub.app`
 
 **API Version:** `v1`
 
@@ -103,7 +103,7 @@ Retrieve information about the authenticated user.
     "id": "user_123abc",
     "name": "John Doe",
     "email": "john.doe@example.com",
-    "avatar": "https://cdn.tecta.app/avatars/user_123abc.jpg",
+    "avatar": "https://cdn.reminder hub.app/avatars/user_123abc.jpg",
     "createdAt": "2025-01-01T00:00:00Z",
     "subscription": {
       "plan": "premium",
@@ -142,7 +142,7 @@ Update user profile information.
       "name": "John Smith",
       "email": "john.doe@example.com",
       "bio": "Product manager and AI enthusiast",
-      "avatar": "https://cdn.tecta.app/avatars/user_123abc.jpg"
+      "avatar": "https://cdn.reminder hub.app/avatars/user_123abc.jpg"
     }
   }
 }
@@ -631,7 +631,7 @@ Retrieve comprehensive analytics about tasks and productivity.
 
 ## Webhooks
 
-Subscribe to real-time events from Tecta.
+Subscribe to real-time events from reminder  hub.
 
 ### Supported Events
 
@@ -673,7 +673,7 @@ Subscribe to real-time events from Tecta.
 
 ### Webhook Payload Example
 
-When an event occurs, Tecta sends a POST request to your webhook URL:
+When an event occurs, reminder  hub sends a POST request to your webhook URL:
 
 ```json
 {
@@ -782,7 +782,7 @@ When the limit is exceeded, you'll receive a `429 Too Many Requests` response:
 const axios = require('axios');
 
 const client = axios.create({
-  baseURL: 'https://api.tecta.app/api/v1',
+  baseURL: 'https://api.reminder hub.app/api/v1',
   headers: {
     'Authorization': 'Bearer YOUR_JWT_TOKEN',
     'Content-Type': 'application/json'
@@ -811,7 +811,7 @@ await client.post(`/reminders/${reminderId}/complete`);
 ```python
 import requests
 
-BASE_URL = 'https://api.tecta.app/api/v1'
+BASE_URL = 'https://api.reminder hub.app/api/v1'
 HEADERS = {
     'Authorization': 'Bearer YOUR_JWT_TOKEN',
     'Content-Type': 'application/json'
@@ -849,10 +849,10 @@ requests.post(
 
 ## Support
 
-- **Documentation:** https://docs.tecta.app
-- **Status Page:** https://status.tecta.app
-- **Support Email:** support@tecta.app
-- **Discord Community:** https://discord.gg/tecta
+- **Documentation:** https://docs.reminder hub.app
+- **Status Page:** https://status.reminder hub.app
+- **Support Email:** support@reminder hub.app
+- **Discord Community:** https://discord.gg/reminder hub
 
 **Last Updated:** December 24, 2025
 **API Version:** v1.0.0

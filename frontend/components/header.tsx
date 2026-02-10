@@ -35,7 +35,7 @@ export function Header() {
         <Link 
           href="/" 
           className="flex items-center gap-2 font-bold text-xl z-10 min-h-12 px-2 -ml-2"
-          aria-label="Перейти на главную страницу Tecta"
+          aria-label="Перейти на главную страницу reminder  hub"
         >
           <Image 
             src="/images/icon.svg" 
@@ -45,7 +45,7 @@ export function Header() {
             className="h-8 w-8"
             priority
           />
-          <span className="text-balance">Tecta</span>
+          <span className="text-balance">reminder  hub</span>
         </Link>
 
         {/* Десктопная навигация по центру */}

@@ -1,4 +1,4 @@
-# Robots.txt для Tecta
+# Robots.txt для reminder  hub
 User-agent: *
 Allow: /
 Disallow: /api/

@@ -1,4 +1,4 @@
-// API Client for Tecta Backend
+// API Client for reminder  hub Backend
 const API_BASE_URL = 'http://localhost:8080/api/v1'
 
 export interface ApiResponse<T> {

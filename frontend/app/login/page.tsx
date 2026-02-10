@@ -45,7 +45,7 @@ export default function LoginPage() {
         <div className="text-center mb-8">
           <Link href="/" className="inline-flex items-center gap-2 font-bold text-2xl mb-2">
             <BrainCircuitIcon className="h-7 w-7 text-primary" />
-            <span>Tecta</span>
+            <span>reminder  hub</span>
           </Link>
           <p className="text-muted-foreground text-sm leading-relaxed">С возвращением! Войдите в свой аккаунт.</p>
         </div>

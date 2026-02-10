@@ -89,7 +89,7 @@ export default function Home() {
             </h1>
 
             <p className="text-balance text-lg md:text-xl text-muted-foreground mb-8 max-w-2xl mx-auto leading-relaxed">
-              Tecta использует ИИ для автоматического анализа ваших разговоров в мессенджерах, извлечения обязательств и
+              reminder  hub использует ИИ для автоматического анализа ваших разговоров в мессенджерах, извлечения обязательств и
               дедлайнов, превращая их в интеллектуальные напоминания.
             </p>
 
@@ -317,7 +317,7 @@ export default function Home() {
             <CardContent className="pt-12 pb-12 text-center">
               <h2 className="text-balance text-3xl md:text-4xl font-bold mb-4">Готовы никогда не пропускать задачи?</h2>
               <p className="text-balance text-lg text-muted-foreground mb-8 max-w-2xl mx-auto leading-relaxed">
-                Присоединяйтесь к тысячам профессионалов, которые доверяют Tecta в организации своих задач.
+                Присоединяйтесь к тысячам профессионалов, которые доверяют reminder  hub в организации своих задач.
               </p>
               <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
                 <Link href="/register">
@@ -359,15 +359,15 @@ export default function Home() {
             <div className="flex items-center gap-2 font-bold text-xl">
               <Image 
                 src="/images/icon.svg" 
-                alt="Tecta" 
+                alt="reminder  hub" 
                 width={24} 
                 height={24} 
                 className="h-6 w-6"
                 priority
               />
-              <span>Tecta</span>
+              <span>reminder  hub</span>
             </div>
-            <p className="text-sm text-muted-foreground">© 2025 Tecta. Все права защищены.</p>
+            <p className="text-sm text-muted-foreground">© 2025 reminder  hub. Все права защищены.</p>
             <div className="flex gap-6">
               <Link href="/privacy" className="text-sm text-muted-foreground hover:text-foreground transition-colors">
                 Конфиденциальность

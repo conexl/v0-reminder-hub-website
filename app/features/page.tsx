@@ -192,7 +192,7 @@ export default function FeaturesPage() {
             управления задачами
           </h1>
           <p className="text-xl text-muted-foreground leading-relaxed max-w-3xl mx-auto">
-            Откройте для себя, как Tecta использует искусственный интеллект для преобразования ваших разговоров в
+            Откройте для себя, как reminder  hub использует искусственный интеллект для преобразования ваших разговоров в
             мессенджерах в организованные, действенные задачи
           </p>
         </div>
@@ -236,7 +236,7 @@ export default function FeaturesPage() {
           <div className="text-center mb-12">
             <h2 className="text-3xl md:text-4xl font-bold mb-4">Идеально подходит для</h2>
             <p className="text-lg text-muted-foreground leading-relaxed">
-              Как Tecta помогает различным профессионалам оставаться организованными
+              Как reminder  hub помогает различным профессионалам оставаться организованными
             </p>
           </div>
 
@@ -328,7 +328,7 @@ export default function FeaturesPage() {
             Готовы трансформировать управление задачами?
           </h2>
           <p className="text-lg text-muted-foreground leading-relaxed mb-8">
-            Присоединяйтесь к тысячам профессионалов, которые уже используют Tecta
+            Присоединяйтесь к тысячам профессионалов, которые уже используют reminder  hub
           </p>
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
             <Link href="/register">

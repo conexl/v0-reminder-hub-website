@@ -135,7 +135,7 @@ export default function PrivacyPage() {
             <CardContent className="space-y-4 text-muted-foreground leading-relaxed">
               <p>Если у вас есть вопросы об этой Политике конфиденциальности, пожалуйста, свяжитесь с нами:</p>
               <ul className="list-none space-y-2 ml-4">
-                <li>Email: privacy@tecta.com</li>
+                <li>Email: privacy@reminder hub.com</li>
                 <li>Адрес: 123 Privacy Street, San Francisco, CA 94105</li>
               </ul>
             </CardContent>
@@ -148,9 +148,9 @@ export default function PrivacyPage() {
           <div className="flex flex-col md:flex-row items-center justify-between gap-4">
             <div className="flex items-center gap-2 font-bold text-xl">
               <BrainCircuitIcon className="h-6 w-6 text-primary" />
-              <span>Tecta</span>
+              <span>reminder  hub</span>
             </div>
-            <p className="text-sm text-muted-foreground">© 2025 Tecta. Все права защищены.</p>
+            <p className="text-sm text-muted-foreground">© 2025 reminder  hub. Все права защищены.</p>
             <div className="flex gap-6">
               <Link href="/privacy" className="text-sm text-muted-foreground hover:text-foreground transition-colors">
                 Конфиденциальность

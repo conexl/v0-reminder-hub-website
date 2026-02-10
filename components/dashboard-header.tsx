@@ -49,8 +49,8 @@ export function DashboardHeader() {
     <header className="sticky top-0 z-50 w-full border-b border-border/40 bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
       <div className="container mx-auto flex h-16 items-center justify-between px-4">
         <Link href="/dashboard" className="flex items-center gap-2 font-bold text-xl">
-          {mounted && <Image src="/images/icon.svg" alt="Tecta Logo" width={32} height={32} className="h-8 w-8" />}
-          <span>Tecta</span>
+          {mounted && <Image src="/images/icon.svg" alt="reminder  hub Logo" width={32} height={32} className="h-8 w-8" />}
+          <span>reminder  hub</span>
         </Link>
 
         <nav className="hidden md:flex items-center gap-6">

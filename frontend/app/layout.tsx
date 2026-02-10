@@ -16,8 +16,8 @@ export const metadata: Metadata = {
   metadataBase: new URL("https://xorx.dev"),
 
   title: {
-    default: "Tecta — AI Brain for Task Automation",
-    template: "%s | Tecta",
+    default: "reminder  hub — AI Brain for Task Automation",
+    template: "%s | reminder  hub",
   },
   description:
     "Искусственный интеллект для автоматического извлечения задач из мессенджеров. Поддержка Telegram, Slack, WhatsApp, Discord и других платформ. Умные напоминания и аналитика.",
@@ -41,7 +41,7 @@ export const metadata: Metadata = {
     type: "website",
     locale: "ru_RU",
     url: "https://xorx.dev",
-    title: "Tecta — AI Brain for Task Automation",
+    title: "reminder  hub — AI Brain for Task Automation",
     description: "Автоматическое извлечение задач из мессенджеров с помощью искусственного интеллекта",
     siteName: "XORX",
     images: [
@@ -49,13 +49,13 @@ export const metadata: Metadata = {
         url: "/og-image.png",
         width: 1200,
         height: 630,
-        alt: "Tecta — AI-powered brain circuit",
+        alt: "reminder  hub — AI-powered brain circuit",
       },
     ],
   },
   twitter: {
     card: "summary_large_image",
-    title: "Tecta — AI Brain for Task Automation",
+    title: "reminder  hub — AI Brain for Task Automation",
     description: "Автоматическое извлечение задач из мессенджеров с помощью ИИ",
     images: ["/og-image.png"],
     creator: "@xorxdev", 

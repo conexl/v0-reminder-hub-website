@@ -1,6 +1,6 @@
 "use client"
 
-import { useState, useEffect } from "react"
+import { useState, useEffect, useRef } from "react"
 import { AuthGuard } from "@/components/auth-guard"
 import { api, type Reminder } from "@/lib/api"
 import { wsClient } from "@/lib/websocket"
@@ -150,7 +150,9 @@ const getPriorityColor = (priority: string) => {
 }
 
 const formatDate = (dateString: string) => {
+  if (!dateString) return "Без срока"
   const date = new Date(dateString)
+  if (Number.isNaN(date.getTime())) return "Без срока"
   return date.toLocaleString("en-US", {
     month: "short",
     day: "numeric",
@@ -173,10 +175,12 @@ export default function DashboardPage() {
   })
   const [activeTab, setActiveTab] = useState("all")
   const [error, setError] = useState("")
+  const refreshTimerRef = useRef<ReturnType<typeof setInterval> | null>(null)
+  const inflightRef = useRef(false)
 
   // Load reminders on mount
   useEffect(() => {
-    loadReminders()
+    loadReminders(true)
     
     // Connect WebSocket
     const token = getAuthToken()
@@ -214,13 +218,32 @@ export default function DashboardPage() {
     }
   }, [])
 
-  const loadReminders = async () => {
-    setIsLoading(true)
+  useEffect(() => {
+    const handleFocus = () => loadReminders(false)
+    window.addEventListener("focus", handleFocus)
+
+    refreshTimerRef.current = setInterval(() => {
+      loadReminders(false)
+    }, 10000)
+
+    return () => {
+      window.removeEventListener("focus", handleFocus)
+      if (refreshTimerRef.current) clearInterval(refreshTimerRef.current)
+    }
+  }, [])
+
+  const loadReminders = async (showSpinner: boolean) => {
+    if (inflightRef.current) return
+    inflightRef.current = true
+    if (showSpinner) {
+      setIsLoading(true)
+    }
     setError("")
     try {
       const response = await api.getReminders({ limit: 100 })
-      if (response.success && response.data) {
-        setReminders(response.data.reminders)
+      if (response.success) {
+        const list = Array.isArray(response.data) ? response.data : []
+        setReminders(list)
       } else {
         setError(response.error?.message || "Не удалось загрузить напоминания")
       }
@@ -228,7 +251,10 @@ export default function DashboardPage() {
       setError("Ошибка при загрузке данных")
       console.error("Failed to load reminders:", err)
     } finally {
-      setIsLoading(false)
+      if (showSpinner) {
+        setIsLoading(false)
+      }
+      inflightRef.current = false
     }
   }
 

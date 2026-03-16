@@ -2,20 +2,26 @@
 
 import type React from "react"
 
-import { useEffect } from "react"
+import { useEffect, useState } from "react"
 import { useRouter } from "next/navigation"
 import { isAuthenticated } from "@/lib/auth"
 
 export function AuthGuard({ children }: { children: React.ReactNode }) {
   const router = useRouter()
+  const [mounted, setMounted] = useState(false)
 
   useEffect(() => {
+    setMounted(true)
+  }, [])
+
+  useEffect(() => {
+    if (!mounted) return
     if (!isAuthenticated()) {
       router.push("/login")
     }
-  }, [router])
+  }, [router, mounted])
 
-  if (!isAuthenticated()) {
+  if (!mounted || !isAuthenticated()) {
     return null
   }
 

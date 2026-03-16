@@ -12,7 +12,7 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu"
 import { Sheet, SheetContent, SheetHeader, SheetTitle, SheetTrigger } from "@/components/ui/sheet"
-import { Avatar, AvatarFallback } from "@/components/ui/avatar"
+import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
 import {
   HomeIcon,
   BarChart3Icon,
@@ -24,18 +24,47 @@ import {
   MenuIcon,
   XIcon,
 } from "lucide-react"
-import { logout } from "@/lib/auth"
+import { getCurrentUser, logout } from "@/lib/auth"
 import { useTheme } from "next-themes"
 import { useEffect, useState } from "react"
+import type { User } from "@/lib/api"
+
+const getInitials = (name?: string, email?: string) => {
+  const source = (name || "").trim()
+  if (source) {
+    const parts = source.split(/\s+/).slice(0, 2)
+    const initials = parts.map((part) => part[0]).join("")
+    return initials.toUpperCase()
+  }
+  if (email) {
+    return email.slice(0, 2).toUpperCase()
+  }
+  return "U"
+}
 
 export function DashboardHeader() {
   const router = useRouter()
   const { theme, setTheme, systemTheme } = useTheme()
   const [mounted, setMounted] = useState(false)
   const [open, setOpen] = useState(false)
+  const [user, setUser] = useState<User | null>(null)
 
   useEffect(() => {
     setMounted(true)
+  }, [])
+
+  useEffect(() => {
+    let active = true
+    const loadUser = async () => {
+      const current = await getCurrentUser()
+      if (active) {
+        setUser(current)
+      }
+    }
+    loadUser()
+    return () => {
+      active = false
+    }
   }, [])
 
   const handleLogout = () => {
@@ -89,15 +118,16 @@ export function DashboardHeader() {
               <DropdownMenuTrigger asChild>
                 <Button variant="ghost" className="relative h-9 w-9 rounded-full">
                   <Avatar className="h-9 w-9">
-                    <AvatarFallback>JD</AvatarFallback>
+                    {user?.avatar && <AvatarImage src={user.avatar} alt={user.name || "Avatar"} />}
+                    <AvatarFallback>{getInitials(user?.name, user?.email)}</AvatarFallback>
                   </Avatar>
                 </Button>
               </DropdownMenuTrigger>
               <DropdownMenuContent align="end" className="w-56">
                 <div className="flex items-center justify-start gap-2 p-2">
                   <div className="flex flex-col space-y-1">
-                    <p className="text-sm font-medium">John Doe</p>
-                    <p className="text-xs text-muted-foreground">john.doe@example.com</p>
+                    <p className="text-sm font-medium">{user?.name || "Пользователь"}</p>
+                    <p className="text-xs text-muted-foreground">{user?.email || ""}</p>
                   </div>
                 </div>
                 <DropdownMenuSeparator />
@@ -139,11 +169,14 @@ export function DashboardHeader() {
 
                   <div className="flex items-center gap-3 p-3 rounded-lg bg-background/50 backdrop-blur">
                     <Avatar className="h-12 w-12 border-2 border-primary/20">
-                      <AvatarFallback className="bg-primary/10 text-primary font-semibold">JD</AvatarFallback>
+                      {user?.avatar && <AvatarImage src={user.avatar} alt={user.name || "Avatar"} />}
+                      <AvatarFallback className="bg-primary/10 text-primary font-semibold">
+                        {getInitials(user?.name, user?.email)}
+                      </AvatarFallback>
                     </Avatar>
                     <div className="flex-1 min-w-0">
-                      <p className="text-sm font-semibold truncate">John Doe</p>
-                      <p className="text-xs text-muted-foreground truncate">john.doe@example.com</p>
+                      <p className="text-sm font-semibold truncate">{user?.name || "Пользователь"}</p>
+                      <p className="text-xs text-muted-foreground truncate">{user?.email || ""}</p>
                     </div>
                   </div>
                 </SheetHeader>

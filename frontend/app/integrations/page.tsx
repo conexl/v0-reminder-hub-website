@@ -73,6 +73,7 @@ export default function IntegrationsPage() {
     botToken: "",
     analyzePrivateChats: true,
     analyzeGroups: true,
+    useDefaultBot: false,
   })
 
   useEffect(() => {
@@ -84,9 +85,14 @@ export default function IntegrationsPage() {
     setError("")
     try {
       const response = await api.getIntegrations()
-      if (response.success && response.data) {
-        setIntegrations(response.data.integrations)
+      if (response.success) {
+        const list = Array.isArray(response.data?.integrations) ? response.data!.integrations : []
+        setIntegrations(list)
+        if (!response.data) {
+          setError("")
+        }
       } else {
+        setIntegrations([])
         setError(response.error?.message || "Не удалось загрузить интеграции")
       }
     } catch (err) {
@@ -98,8 +104,12 @@ export default function IntegrationsPage() {
   }
 
   const handleAddIntegration = async () => {
-    if (!selectedPlatform || !newIntegration.botToken) {
-      setError("Выберите платформу и введите токен бота")
+    if (!selectedPlatform) {
+      setError("Выберите платформу")
+      return
+    }
+    if (!newIntegration.useDefaultBot && !newIntegration.botToken) {
+      setError("Введите токен бота или используйте бота reminder hub")
       return
     }
 
@@ -107,7 +117,7 @@ export default function IntegrationsPage() {
       const response = await api.createIntegration({
         platform: selectedPlatform as "telegram" | "slack" | "discord" | "whatsapp",
         credentials: {
-          botToken: newIntegration.botToken,
+          botToken: newIntegration.useDefaultBot ? "" : newIntegration.botToken,
         },
         settings: {
           analyzePrivateChats: newIntegration.analyzePrivateChats,
@@ -120,7 +130,7 @@ export default function IntegrationsPage() {
         setIntegrations((prev) => [...prev, response.data!.integration])
         setIsAddDialogOpen(false)
         setSelectedPlatform(null)
-        setNewIntegration({ botToken: "", analyzePrivateChats: true, analyzeGroups: true })
+        setNewIntegration({ botToken: "", analyzePrivateChats: true, analyzeGroups: true, useDefaultBot: false })
         setError("")
       } else {
         setError(response.error?.message || "Не удалось создать интеграцию")
@@ -130,6 +140,7 @@ export default function IntegrationsPage() {
       console.error("Failed to create integration:", err)
     }
   }
+
 
   const handleConfigureIntegration = (integration: any) => {
     setSelectedIntegration(integration)
@@ -387,11 +398,27 @@ export default function IntegrationsPage() {
                     placeholder={`Введите токен бота ${selectedPlatform}`}
                     value={newIntegration.botToken}
                     onChange={(e) => setNewIntegration({ ...newIntegration, botToken: e.target.value })}
+                    disabled={newIntegration.useDefaultBot}
                   />
                   <p className="text-xs text-muted-foreground">
                     Получите токен бота на портале разработчика {selectedPlatform}
                   </p>
                 </div>
+
+                {selectedPlatform === "telegram" && (
+                  <div className="flex items-center justify-between pt-2">
+                    <div className="space-y-0.5">
+                      <Label>Использовать бота reminder hub</Label>
+                      <p className="text-xs text-muted-foreground">Токен берется из переменной окружения</p>
+                    </div>
+                    <Switch
+                      checked={newIntegration.useDefaultBot}
+                      onCheckedChange={(checked) =>
+                        setNewIntegration({ ...newIntegration, useDefaultBot: checked })
+                      }
+                    />
+                  </div>
+                )}
 
                 <div className="space-y-4 pt-2">
                   <div className="flex items-center justify-between">
@@ -424,7 +451,10 @@ export default function IntegrationsPage() {
                 <Button variant="outline" onClick={() => setIsAddDialogOpen(false)}>
                   Отмена
                 </Button>
-                <Button onClick={handleAddIntegration} disabled={!newIntegration.botToken}>
+                <Button
+                  onClick={handleAddIntegration}
+                  disabled={!newIntegration.useDefaultBot && !newIntegration.botToken}
+                >
                   Подключить платформу
                 </Button>
               </DialogFooter>

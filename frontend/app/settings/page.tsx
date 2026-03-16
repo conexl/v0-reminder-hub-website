@@ -1,6 +1,6 @@
 "use client"
 
-import { useState } from "react"
+import { useEffect, useState } from "react"
 import { AuthGuard } from "@/components/auth-guard"
 import { DashboardHeader } from "@/components/dashboard-header"
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
@@ -9,16 +9,19 @@ import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
 import { Switch } from "@/components/ui/switch"
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
-import { Avatar, AvatarFallback } from "@/components/ui/avatar"
+import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
 import { UserIcon, BellIcon, ShieldCheckIcon, PaletteIcon, CheckIcon } from "lucide-react"
+import { api, type User } from "@/lib/api"
 
 export default function SettingsPage() {
   const [profile, setProfile] = useState({
-    name: "John Doe",
-    email: "john.doe@example.com",
-    bio: "Product manager and AI enthusiast",
+    name: "",
+    email: "",
+    bio: "",
+    avatar: "",
   })
+  const [user, setUser] = useState<User | null>(null)
 
   const [notifications, setNotifications] = useState({
     emailNotifications: true,
@@ -42,11 +45,48 @@ export default function SettingsPage() {
 
   const [isSaving, setIsSaving] = useState(false)
 
-  const handleSaveProfile = () => {
+  useEffect(() => {
+    let active = true
+    const loadUser = async () => {
+      const response = await api.getCurrentUser()
+      if (!active) return
+      if (response.success && response.data) {
+        setUser(response.data)
+        setProfile((prev) => ({
+          ...prev,
+          name: response.data.name || "",
+          email: response.data.email || "",
+          avatar: response.data.avatar || "",
+        }))
+      }
+    }
+    loadUser()
+    return () => {
+      active = false
+    }
+  }, [])
+
+  const handleSaveProfile = async () => {
     setIsSaving(true)
-    setTimeout(() => {
+    try {
+      const response = await api.updateProfile({
+        name: profile.name || undefined,
+        bio: profile.bio || undefined,
+        avatar: profile.avatar || undefined,
+      })
+      if (response.success && response.data?.user) {
+        const updated = response.data.user
+        setUser(updated)
+        setProfile((prev) => ({
+          ...prev,
+          name: updated.name || prev.name,
+          email: updated.email || prev.email,
+          avatar: updated.avatar || prev.avatar,
+        }))
+      }
+    } finally {
       setIsSaving(false)
-    }, 1000)
+    }
   }
 
   return (
@@ -90,7 +130,10 @@ export default function SettingsPage() {
                 <CardContent className="space-y-6">
                   <div className="flex items-center gap-6">
                     <Avatar className="h-20 w-20">
-                      <AvatarFallback className="text-2xl">ИИ</AvatarFallback>
+                      {profile.avatar && <AvatarImage src={profile.avatar} alt={profile.name || "Avatar"} />}
+                      <AvatarFallback className="text-2xl">
+                        {(profile.name || profile.email || "U").slice(0, 2).toUpperCase()}
+                      </AvatarFallback>
                     </Avatar>
                     <div className="space-y-2">
                       <Button variant="outline" size="sm" className="w-full sm:w-auto bg-transparent">
@@ -101,6 +144,16 @@ export default function SettingsPage() {
                   </div>
 
                   <div className="space-y-4">
+                    <div className="space-y-2">
+                      <Label htmlFor="avatar">Ссылка на аватар</Label>
+                      <Input
+                        id="avatar"
+                        placeholder="https://..."
+                        value={profile.avatar}
+                        onChange={(e) => setProfile({ ...profile, avatar: e.target.value })}
+                      />
+                    </div>
+
                     <div className="space-y-2">
                       <Label htmlFor="name">Полное имя</Label>
                       <Input
@@ -117,9 +170,10 @@ export default function SettingsPage() {
                         type="email"
                         value={profile.email}
                         onChange={(e) => setProfile({ ...profile, email: e.target.value })}
+                        disabled
                       />
                       <p className="text-xs text-muted-foreground">
-                        Мы отправим вам письмо для подтверждения изменений
+                        Email изменяется только через поддержку
                       </p>
                     </div>
 

@@ -1,5 +1,6 @@
 // API Client for reminder  hub Backend
-const API_BASE_URL = 'http://localhost:8080/api/v1'
+const API_BASE_URL = process.env.NEXT_PUBLIC_API_BASE_URL || '/api/v1'
+const AUTH_BASE_URL = '/auth'
 
 export interface ApiResponse<T> {
   success: boolean
@@ -17,6 +18,36 @@ export interface ApiError {
   details?: unknown
 }
 
+type CollectorTask = {
+  id: string
+  user_id: string
+  email_id: string
+  title: string
+  description?: string
+  deadline?: string
+  status: 'pending' | 'completed' | 'overdue'
+  priority?: string
+  created_at: string
+  updated_at: string
+}
+
+function mapTaskToReminder(task: CollectorTask): Reminder {
+  const priority = task.priority === 'urgent' ? 'high' : (task.priority as Reminder['priority']) || 'medium'
+  const dueDate = task.deadline && !task.deadline.startsWith('0001-01-01') ? task.deadline : ''
+
+  return {
+    id: task.id,
+    title: task.title,
+    description: task.description,
+    dueDate,
+    status: task.status,
+    priority,
+    source: 'ai',
+    createdAt: task.created_at,
+    updatedAt: task.updated_at,
+  }
+}
+
 class ApiClient {
   private baseURL: string
 
@@ -25,6 +56,14 @@ class ApiClient {
   }
 
   private async request<T>(
+    endpoint: string,
+    options: RequestInit = {}
+  ): Promise<ApiResponse<T>> {
+    return this.requestWithBase<T>(this.baseURL, endpoint, options)
+  }
+
+  private async requestWithBase<T>(
+    baseURL: string,
     endpoint: string,
     options: RequestInit = {}
   ): Promise<ApiResponse<T>> {
@@ -39,13 +78,13 @@ class ApiClient {
     }
 
     try {
-      const response = await fetch(`${this.baseURL}${endpoint}`, {
+      let response = await fetch(`${baseURL}${endpoint}`, {
         ...options,
         headers,
       })
 
       // Get response text first
-      const text = await response.text()
+      let text = await response.text()
       
       // Check if response is JSON
       const contentType = response.headers.get('content-type')
@@ -58,7 +97,8 @@ class ApiClient {
           // Remove BOM if present and trim whitespace
           const cleanText = text.trim().replace(/^\uFEFF/, '')
           if (cleanText) {
-            data = JSON.parse(cleanText)
+            const parsed = JSON.parse(cleanText)
+            data = parsed == null ? {} : parsed
           }
         } catch (parseError) {
           console.error('Failed to parse JSON response:', parseError)
@@ -87,6 +127,30 @@ class ApiClient {
             message: response.statusText || 'Server returned non-JSON response',
             details: { status: response.status, contentType, text: text.substring(0, 200) },
           },
+        }
+      }
+
+      if (!response.ok && response.status === 401) {
+        const refreshToken = this.getRefreshToken()
+        if (refreshToken) {
+          const refreshed = await this.refreshAccessToken(refreshToken)
+          if (refreshed) {
+            const retryHeaders = { ...headers, Authorization: `Bearer ${refreshed}` }
+            response = await fetch(`${baseURL}${endpoint}`, { ...options, headers: retryHeaders })
+            text = await response.text()
+
+            // re-evaluate response data after retry
+            const retryContentType = response.headers.get('content-type')
+            const retryIsJson = retryContentType && retryContentType.includes('application/json')
+            data = {}
+            if (retryIsJson && text.trim()) {
+              const cleanText = text.trim().replace(/^\uFEFF/, '')
+              if (cleanText) {
+                const parsed = JSON.parse(cleanText)
+                data = parsed == null ? {} : parsed
+              }
+            }
+          }
         }
       }
 
@@ -122,23 +186,57 @@ class ApiClient {
     return localStorage.getItem('auth_token')
   }
 
+  private getRefreshToken(): string | null {
+    if (typeof window === 'undefined') return null
+    return localStorage.getItem('refresh_token')
+  }
+
+  private setToken(token: string) {
+    if (typeof window === 'undefined') return
+    localStorage.setItem('auth_token', token)
+  }
+
+  private async refreshAccessToken(refreshToken: string): Promise<string | null> {
+    try {
+      const response = await fetch(`${AUTH_BASE_URL}/refresh`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ refresh_token: refreshToken }),
+      })
+      const data = await response.json().catch(() => null)
+      const newToken = data?.access_token || data?.token
+      if (response.ok && newToken) {
+        this.setToken(newToken)
+        return newToken
+      }
+      return null
+    } catch {
+      return null
+    }
+  }
+
   // Auth endpoints
   async register(email: string, password: string, name: string) {
-    return this.request<{ user: User; token: string }>('/auth/register', {
+    return this.requestWithBase<{ message: string; user_id: string }>(AUTH_BASE_URL, '/register', {
       method: 'POST',
       body: JSON.stringify({ email, password, name }),
     })
   }
 
   async login(email: string, password: string) {
-    return this.request<{ token: string; expiresIn: number }>('/auth/login', {
+    return this.requestWithBase<{
+      access_token: string
+      refresh_token: string
+      expires_in: number
+      token_type: string
+    }>(AUTH_BASE_URL, '/login', {
       method: 'POST',
       body: JSON.stringify({ email, password }),
     })
   }
 
   async getCurrentUser() {
-    return this.request<User>('/auth/me')
+    return this.requestWithBase<User>(AUTH_BASE_URL, '/me')
   }
 
   // Reminder endpoints
@@ -159,15 +257,14 @@ class ApiClient {
       })
     }
     const query = queryParams.toString()
-    return this.request<{
-      reminders: Reminder[]
-      pagination: {
-        total: number
-        limit: number
-        offset: number
-        hasMore: boolean
+    const response = await this.request<any[]>(`/reminders${query ? `?${query}` : ''}`)
+    if (response.success && Array.isArray(response.data)) {
+      return {
+        success: true,
+        data: response.data.map(mapTaskToReminder),
       }
-    }>(`/reminders${query ? `?${query}` : ''}`)
+    }
+    return response as ApiResponse<Reminder[]>
   }
 
   async createReminder(reminder: CreateReminderRequest) {

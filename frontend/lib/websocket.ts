@@ -1,5 +1,6 @@
 // WebSocket client for real-time updates
-const WS_BASE_URL = process.env.NEXT_PUBLIC_WS_URL || 'ws://localhost:8080/ws'
+// Leave unset by default to avoid crashing the app when WS backend is not configured.
+const WS_BASE_URL = process.env.NEXT_PUBLIC_WS_URL || ''
 
 export interface WebSocketMessage {
   type: 'event' | 'notification' | 'system' | 'pong'
@@ -29,6 +30,9 @@ class WebSocketClient {
   }
 
   connect(token: string) {
+    if (!this.url) {
+      return
+    }
     if (this.ws?.readyState === WebSocket.OPEN) {
       return
     }

@@ -1,0 +1,212 @@
+services:
+  # --- Postgres ---
+  postgres:
+    image: postgres:15
+    container_name: reminderhub-postgres
+    environment:
+      POSTGRES_USER: ${POSTGRES_USER:-reminder}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:-reminder}
+      POSTGRES_DB: ${POSTGRES_DB:-reminderhub}
+    ports:
+      - "5432:5432"
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+    restart: always
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U ${POSTGRES_USER:-reminder} -d ${POSTGRES_DB:-reminderhub}"]
+      interval: 5s
+      timeout: 5s
+      retries: 5
+
+  # --- RabbitMQ ---
+  rabbitmq:
+    image: rabbitmq:3-management
+    container_name: reminderhub-rabbit
+    hostname: rabbitmq
+    environment:
+      RABBITMQ_DEFAULT_USER: ${RABBITMQ_USER:-guest}
+      RABBITMQ_DEFAULT_PASS: ${RABBITMQ_PASS:-guest}
+      RABBITMQ_ERLANG_COOKIE: reminderhubrabbitmqcookiepleasechange1234567890
+      ERLANG_COOKIE: reminderhubrabbitmqcookiepleasechange1234567890
+      RABBITMQ_SERVER_ADDITIONAL_ERL_ARGS: "-setcookie reminderhubrabbitmqcookiepleasechange1234567890"
+    ports:
+      - "5672:5672"
+      - "15672:15672"
+    volumes:
+      - rabbitmq-data:/var/lib/rabbitmq
+    restart: always
+
+  # --- Redis ---
+  redis:
+    image: redis:7-alpine
+    container_name: reminderhub-redis
+    ports:
+      - "6379:6379"
+    volumes:
+      - redis-data:/data
+    restart: always
+    healthcheck:
+      test: ["CMD", "redis-cli", "ping"]
+      interval: 5s
+      timeout: 3s
+      retries: 5
+
+  # --- API Gateway ---
+  api-gateway:
+    build: 
+      context: .
+      dockerfile: ./services/api-gateway/Dockerfile
+    container_name: api-gateway
+
+    env_file:
+      - .env
+    environment:
+      - SERVER_PORT=8080
+      - AUTH_SERVICE_URL=http://auth-service:8081
+      - CORE_SERVICE_URL=http://core-service:8082
+      - COLLECTOR_SERVICE_URL=http://collector-service:8083
+    depends_on:
+      auth-service:
+        condition: service_started
+      core-service:
+        condition: service_started
+      collector-service:
+        condition: service_started
+    restart: on-failure
+
+  # --- Auth Migrations ---
+  auth-migrate:
+    build:
+      context: .
+      dockerfile: ./services/auth/Dockerfile
+      target: migrate
+    container_name: auth-migrate
+    env_file:
+      - .env
+    environment:
+      - POSTGRES_USER=${POSTGRES_USER:-reminder}
+      - POSTGRES_PASSWORD=${POSTGRES_PASSWORD:-reminder}
+      - POSTGRES_HOST=postgres
+      - POSTGRES_PORT=5432
+      - POSTGRES_DB=${POSTGRES_DB:-reminderhub}
+    depends_on:
+      postgres:
+        condition: service_healthy
+    restart: "no"
+
+  # --- Auth Service ---
+  auth-service:
+    build:
+      context: .
+      dockerfile: ./services/auth/Dockerfile
+      target: service
+    container_name: auth-service
+    env_file:
+      - .env
+    environment:
+      - SERVER_PORT=8081
+      - DB_URL=postgres://${POSTGRES_USER:-reminder}:${POSTGRES_PASSWORD:-reminder}@postgres:5432/${POSTGRES_DB:-reminderhub}?sslmode=disable
+      - REDIS_HOST=redis
+      - REDIS_PORT=6379
+    depends_on:
+      auth-migrate:
+        condition: service_completed_successfully
+      postgres:
+        condition: service_healthy
+      redis:
+        condition: service_healthy
+    restart: on-failure
+
+  # --- Core Service ---
+  core-service:
+    build: 
+      context: .
+      dockerfile: ./services/core/Dockerfile
+    container_name: core-service
+    env_file:
+      - .env
+    environment:
+      - SERVER_PORT=8082
+      - CORE_DB_URL=postgres://${POSTGRES_USER:-reminder}:${POSTGRES_PASSWORD:-reminder}@postgres:5432/${POSTGRES_DB:-reminderhub}?sslmode=disable
+      - DB_URL=postgres://${POSTGRES_USER:-reminder}:${POSTGRES_PASSWORD:-reminder}@postgres:5432/${POSTGRES_DB:-reminderhub}?sslmode=disable
+      - RABBIT_URL=amqp://${RABBITMQ_USER:-guest}:${RABBITMQ_PASS:-guest}@rabbitmq:5672/
+    depends_on:
+      rabbitmq:
+        condition: service_started
+      postgres:
+        condition: service_healthy
+    restart: on-failure
+
+  # --- Analyzer Service ---
+  analyzer-service:
+    build: 
+      context: .
+      dockerfile: ./services/analyzer/Dockerfile
+    container_name: analyzer-service
+    env_file:
+      - .env
+    environment:
+      - RABBITMQ_HOST=rabbitmq
+      - RABBITMQ_PORT=5672
+      - RABBITMQ_USER=${RABBITMQ_USER:-guest}
+      - RABBITMQ_PASSWORD=${RABBITMQ_PASS:-guest}
+      - OPENAI_API_KEY=${OPENAI_API_KEY:-}
+    depends_on:
+      rabbitmq:
+        condition: service_started
+    restart: on-failure
+
+  # --- Collector Service ---
+  collector-service:
+    build: 
+      context: ./services/collector
+      dockerfile: Dockerfile
+    container_name: collector-service
+    env_file:
+      - .env
+    environment:
+      - SERVER_PORT=8083
+      - RABBIT_URL=amqp://${RABBITMQ_USER:-guest}:${RABBITMQ_PASS:-guest}@rabbitmq:5672/
+      - DB_URL=postgres://${POSTGRES_USER:-reminder}:${POSTGRES_PASSWORD:-reminder}@postgres:5432/${POSTGRES_DB:-reminderhub}?sslmode=disable
+    depends_on:
+      rabbitmq:
+        condition: service_started
+      postgres:
+        condition: service_healthy
+    restart: on-failure
+
+  # --- Frontend ---
+  frontend:
+    build:
+      context: ../frontend
+      dockerfile: Dockerfile
+    container_name: reminderhub-frontend
+    environment:
+      - PORT=3000
+      - HOSTNAME=0.0.0.0
+    depends_on:
+      - api-gateway
+    restart: on-failure
+
+  nginx:
+    image: nginx:alpine
+    container_name: reminderhub-nginx
+    ports:
+      - "80:80"
+    volumes:
+      - ./nginx/nginx.conf:/etc/nginx/nginx.conf:ro
+      - ./nginx/conf.d:/etc/nginx/conf.d:ro
+      - ./nginx/logs:/var/log/nginx
+    depends_on:
+      - api-gateway
+      - frontend
+      - rabbitmq
+    restart: unless-stopped
+  
+volumes:
+  pgdata:
+    driver: local
+  rabbitmq-data:
+    driver: local
+  redis-data:
+    driver: local
